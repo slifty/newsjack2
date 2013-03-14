@@ -1,2 +1,3 @@
 conf.php
 public/remixes/screenshots/*.png
+*.DS_STORE
