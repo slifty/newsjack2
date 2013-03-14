@@ -1,0 +1,15 @@
+
+
+li.remix {
+	float: left;
+	height: 200px;
+	width: 28%;
+	border: 2px solid black;
+	padding: 10px 1%;
+	margin: 10px 1%;
+}
+
+li.remix .image img {
+	max-height: 150px;
+	max-width: 140px;
+}

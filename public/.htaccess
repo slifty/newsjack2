@@ -1,0 +1,11 @@
+RewriteEngine on
+
+# Disable rewrite if the request is a valid directory, file, link
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# Enable the API
+RewriteRule ^api.* "../includes/engine/api.php" [L]
+
+# Enable Engine Rendering
+RewriteRule ^ "../includes/engine/page.php" [L]

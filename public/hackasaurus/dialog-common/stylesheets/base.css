@@ -1,0 +1,122 @@
+/* Fonts */
+
+@font-face {
+    font-family: 'TrashHandRegular';
+    src: url('../fonts/TrashHand-webfont.eot');
+    src: url('../fonts/TrashHand-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/TrashHand-webfont.woff') format('woff'),
+         url('../fonts/TrashHand-webfont.ttf') format('truetype'),
+         url('../fonts/TrashHand-webfont.svg#TrashHandRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Global rules */
+
+html, body {
+  font-family: georgia, "times new roman";
+  margin: 0px;
+  color: #41415b;
+  height: 100%;
+  /* If the browser doesn't support gradients, just use a white background. */
+  background-color: white;
+}
+
+#header {
+	border-bottom: double 3px #333333;
+}
+
+h1.title {
+  font-family: 'impact';
+  font-weight: normal;
+  font-size: 48px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+h1 .subtitle {
+  font-family: Georgia, serif;
+  font-size: 24px;
+}
+
+.container {
+  padding: 20px;
+}
+
+a:link,
+a:visited,
+a:focus,
+a:hover,
+a:active {
+  color: #153959;
+  text-decoration: none;
+}
+
+.tabs {
+	display: none;
+}
+
+a:focus,
+a:hover,
+a:active {
+  text-decoration: underline;
+}
+
+div.close-button, div.ok-button {
+  display: inline-block;
+  position: fixed;
+  z-index: 100;
+  cursor: pointer;
+}
+
+div.close-button {
+  margin: 0.25em;
+  padding: 10px;
+  border: solid 1px #333333;
+  background-color: #FFFFFF;
+  bottom: 10px;
+  right: 180px;
+}
+
+div.ok-button {
+  margin: 0.25em;
+  padding: 10px;
+  border: solid 1px #333333;
+  background-color: #8ab300;
+  color: white;
+  bottom: 10px;
+  right: 10px;
+}
+
+div.ok-button:after {
+  content: ' »';
+}
+
+div.ok-button:hover {
+  background: black;
+  color: white;
+}
+
+div.close-button:hover {
+  background: black;
+  color: white;
+}
+
+#fb_share {
+	background:#5f78ab url(http://static.ak.fbcdn.net/images/connect_sprite.png) 0px -60px no-repeat;
+	color:#fff;
+	display:block;
+	font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+	font-weight:bold;
+	padding-left:50px;
+	padding-top: 13px;
+	margin:1px 1px 0 0;
+	text-shadow:none;
+	width: 170px;
+	height: 26px;
+}
+
+#twitter_share, #twitter_share img {
+	height: 40px;
+	margin-top: 10px;
+}
