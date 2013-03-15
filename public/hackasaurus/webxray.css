@@ -458,3 +458,27 @@ div.webxray-toolbar-button-glyph-tiny {
 .webxray-screenshot-hidden {
 	display: none;
 }
+
+
+
+/* Mask Overlay */
+#newsjack-mask {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background: #000;
+  z-index: 9999999;
+}
+#newsjack-mask h1 {
+  font-family: verdana;
+  background: #fff;
+  position: fixed;
+  text-align: center;
+  top: 50%;
+  margin-top: -50px;
+  padding: 10px;
+  width: 100%;
+  font-size: 3em;
+}

@@ -2,6 +2,7 @@
 <meta charset="utf-8">
 <title>Publish Your Remix</title>
 <link rel="stylesheet" href="dialog-common/stylesheets/base.css">
+<link rel="stylesheet" href="../css/jquery.jcrop.min.css">
 <style>
 textarea {
   font-family: Monaco, "Lucida Console", monospace;
@@ -83,15 +84,25 @@ div.publish-option p {
     <div class="published-url">
       <a target="_blank" href="http://foo/bar">http://foo/bar</a>
     </div>
-	<div class="fb-share">
-		<a id="fb_share" type="button" target="_blank">Share on Facebook</a>
-	</div>
-	<div class="twitter-share">
-		<a id="twitter_share" type="button" target="_blank"><img src="../images/twitter.jpg" alt="Tweet"></a>
-	</div>
-	<div class="img-share">
-		<a id="img_share" type="button" target="_blank">Save as an image!</a>
-	</div>
+  	<div class="fb-share">
+  		<a id="fb_share" type="button" target="_blank">Share on Facebook</a>
+  	</div>
+    <div class="twitter-share">
+      <a id="twitter_share" type="button" target="_blank"><img src="../img/twitter.jpg" alt="Tweet"></a>
+    </div>
+    <div class="image-download">
+      <a id="img_share" type="button" target="_blank">Download your remix as an image.</a>
+    </div>
+  	<div class="gallery">
+      <p>Would you like this to have a chance to be featured in a list of Best Remixes? Here's how:</p>
+      <ol>
+        <li>Use our tools to <div id="create_thumbnail">Create a Thumbnail</div></li>
+        <li>Share this URL with your friends!</li>
+      </ol>
+  	</div>
+  </div>
+  <div id="thumbnail_generation">
+    <img id="full_image" />
   </div>
 </div>
 <div id="view-html" style="display: none;">
@@ -102,9 +113,21 @@ div.publish-option p {
   <p>I am sample “html”.</p>
 </div>
 </div>
-<script src="jquery.min.js"></script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/jquery.jcrop.min.js"></script>
 <script src="yepnope.1.0.2-min.js"></script>
 <script src="src/localization.js"></script>
+
+<script>
+  $(function() {
+    $("#create_thumbnail").click(function() {
+      $("#full_image").Jcrop({
+        aspectRatio: 1
+      });
+    })
+  });
+</script>
+
 <script>
 function DeferredTimeout(ms) {
   var deferred = jQuery.Deferred();
@@ -127,6 +150,7 @@ function DeferredPublish(html, originalURL, hackpubURL) {
 }
 
 function setupUI(html, originalURL, hackpubURL, imgURL) {
+  document.imgURL = imgURL;
   $(".to-internet.big-button").click(function() {
     $("#choose-publish-method").fadeOut(function() {
       $("#to-internet").fadeIn(function() {
@@ -149,6 +173,7 @@ function setupUI(html, originalURL, hackpubURL, imgURL) {
 						$("#fb_share").attr("href", "http://www.facebook.com/sharer.php?src=sp&u=" + encodeURI(url));
 						$("#twitter_share").attr("href","https://twitter.com/intent/tweet?text=Breaking%20News!&url=" + encodeURI(url));
 						$("#img_share").attr("href", "../" + imgURL);
+            $("#full_image").attr("src", "../" + imgURL)
 						$("#to-internet .finished").fadeIn();
 						$.ajax({
 							url: "../api/storage.php",
