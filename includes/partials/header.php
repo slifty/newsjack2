@@ -1,5 +1,10 @@
+<?php
+	include_once("conf.php");
+	global $BASE_DIRECTORY;
+?>
+
 <div class="hackpub-top-bar">
-	<div id="newsjack-logo"><a href="http://www.newsjack.in"><img src="http://www.newsjack.in/logos/newsjack.jpg" /></a></div>
+	<div id="newsjack-logo"><a href="http://www.newsjack.in"><img src="<?php echo($BASE_DIRECTORY);?>img/newsjack.jpg" /></a></div>
 	<h1>Welcome to NewsJack</h1>
 	<div id="newsjack-about">
 		<p>NewsJack is a media remixing tool built from Mozilla's <a href="http://hackasaurus.org/">Hackasaurus</a> by <a href="http://slifty.com">slifty</a> and <a href="http://schock.cc">schock</a>.</p>
