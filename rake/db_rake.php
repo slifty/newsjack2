@@ -1,7 +1,7 @@
 <?php
 	set_include_path('../');;
 	require_once("conf.php");
-	require_once("models/DBConn.php");
+	require_once("includes/common.php");
 
 	// Get connection
 	$mysqli = DBConn::connect();
