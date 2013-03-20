@@ -1,4 +1,31 @@
 var GLOBAL_BASE_PATH = "/newsjack2/public/";
+var Webxray = (function() {
+	var GLOBAL_GOGGLES_LOAD_CB = 'webxrayWhenGogglesLoad';
+
+	return {
+		_getBaseURI: function() {
+			// We would use document.baseURI, but it's not supported on IE9.
+			var a = document.createElement("a");
+			a.setAttribute("href", "./");
+			return a.href;
+		},
+		getBookmarkletURL: function getBookmarkletURL(baseURI) {
+			baseURI = baseURI || this._getBaseURI();
+			var baseCode = "(function(){var script=document.createElement('script');script.src='http://localhost:8000/webxray.js';script.className='webxray';document.body.appendChild(script);})();";
+			var code = baseCode.replace('http://localhost:8000/', baseURI);
+			return 'javascript:' + code;
+		},
+		whenLoaded: function whenLoaded(cb, global) {
+			global = global || window;
+			global[GLOBAL_GOGGLES_LOAD_CB] = cb;
+		},
+		triggerWhenLoaded: function triggerWhenLoaded(ui, global) {
+			global = global || window;
+			if (GLOBAL_GOGGLES_LOAD_CB in global && typeof(global[GLOBAL_GOGGLES_LOAD_CB]) == 'function')
+				global[GLOBAL_GOGGLES_LOAD_CB](ui);
+		}
+	};
+})();
 
 /* LOCALIZATION SUPPORT */
 (function(jQuery) {
@@ -272,7 +299,6 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 })(jQuery);
 
 /* Help Crap */
-/**** DELETE
 (function(jQuery) {
 	var $ = jQuery;
 
@@ -317,7 +343,6 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 		}
 	});
 })(jQuery);
-*/
 
 /* Random jQuery Utility Methods */
 // Todo -- delete this entire thing.
@@ -327,8 +352,6 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 	var RGB_REGEXP = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/;
 	jQuery.extend({
 
-
-		/**** DELETE
 		// Load the given script. Returns a jQuery deferred that resolves
 		// when the script is loaded. Nothing happens if the
 		// script fails to load.
@@ -343,10 +366,8 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 			document.head.appendChild(script);
 			return deferred;
 		},
-		*/
 
 
-		/**** DELETE
 		// Return a string that is shortened to be the given maximum
 		// length, with a trailing ellipsis at the end. If the string
 		// isn't longer than the maximum length, the string is returned
@@ -356,9 +377,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 				return text.substring(0, maxLength) + '\u2026';
 			return text;
 		},
-		*/
 
-		/**** DELETE
 		// Return an rgba()-style CSS color string given a color and an
 		// alpha value.
 		makeRGBA: function makeRGBA(color, alpha) {
@@ -380,10 +399,8 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 				match[3] + ", " +
 				alpha + ")";
 		},
-		*/
 
 
-		/**** DELETE
 		// Like console.warn(), but only does anything if console exists.
 		warn: function warn() {
 			if (window.console && window.console.warn) {
@@ -393,7 +410,6 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					window.console.warn(arguments[0] + " " + arguments[1]);
 			}
 		}
-		*/
 	});
 	
 	jQuery.fn.extend({
@@ -590,6 +606,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 		// Copy the DOM, save the DOM.
 		openUprootDialog: function(input) {
 			$(document).uprootIgnoringWebxray(function(html) {
+				// Prepare Uproot
 				var injectURL = jQuery.webxraySettings.url("hackpubInjectionURL");
 				var hackpubInfo = {
 					injectURL: injectURL,
@@ -598,44 +615,195 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					dropdownExplanation: jQuery.locale.get('dropdown:explanation'),
 					dropdownTitle: jQuery.locale.get('dropdown:headline')
 				};
+				var remixInfo = {
+					"id": null,
+					"img": null,
+					"imgURL": null,
+					"html": null,
+					"url": null,
+				}
+
+				// Set basic information
+				remixInfo.id = remix_id;
+				remixInfo.url = remix_url;
+				
+				// Insert remix header
 				html += '<script>hackpubInfo = ' + JSON.stringify(hackpubInfo) + '</script>';
 				html += '<script src="' + injectURL + '"></script>';
-				var mask = $("<div class='webxray-base' />")
-					.attr("id","newsjack-mask")
-					.append("<h1 class='webxray-base'>Saving your remix, please wait...</h1>")
-					.appendTo($("body"));
+				remixInfo.html = html;
 
-				var html2obj = html2canvas($('#newsjack_content')[0], {
-					proxy: GLOBAL_BASE_PATH + "api/proxy.php",
-					logging: true,
-					onrendered: function(canvas) {
-						mask.remove();
-						var img = canvas.toDataURL();
-						$.ajax({
-							url: GLOBAL_BASE_PATH + "api/saveimg.php",
-							type: "POST",
-							data: {
-								'r': remix_id,
-								'source':img
-							},
-							success: function(imgURL) {
-								alert("INSERT POPUP CODE HERE");
-								// jQuery.simpleModalDialog({
-								// 	input: input,
-								// 	url: jQuery.webxraySettings.url("uprootDialogURL"),
-								// 	payload: JSON.stringify({
-								// 		html: html,
-								// 		hackpubURL: jQuery.webxraySettings.url("hackpubURL"),
-								// 		imgURL: imgURL,
-								// 		originalURL: hackpubInfo.originalURL,
-								// 		languages: jQuery.locale.languages,
-								// 		remix_id: remix_id
-								// 	})
-								// });
-							}
-						});
-					}
-				});
+				// Set up Queue Variable
+				var next = function() {
+					$("body").dequeue("uproot");
+				}
+
+				// Create mask
+				var showMask = function(message) {
+					var $mask = $("#newsjack-mask");
+					if($mask.length == 0)
+						$mask = $("<div class='webxray-base' />")
+							.addClass("webxray-base")
+							.attr("id","newsjack-mask")
+							.appendTo($("body"));
+					$mask.empty();
+
+					var $mask_content = $("<h1 />")
+						.addClass("webxray-base")
+						.text(message)
+						.appendTo($mask);
+				}
+
+				var hideMask = function() {
+					$("#newsjack-mask").remove();
+					next();
+				}
+
+				var hideInterface = function() {
+					$(".webxray-hud-box").hide();
+					$(".webxray-toolbar").hide();
+					next();
+				};
+
+				var createScreenshot = function() {
+					showMask("Creating Screenshot...");
+					var html2obj = html2canvas($('#newsjack_content')[0], {
+						proxy: GLOBAL_BASE_PATH + "api/proxy.php",
+						logging: true,
+						onrendered: function(canvas) {
+							remixInfo.img = canvas.toDataURL();
+							next();
+						}
+					});
+				}
+
+				var saveImage = function() {
+					showMask("Saving Screenshot...");
+					$.ajax({
+						url: GLOBAL_BASE_PATH + "api/saveimg.php",
+						type: "POST",
+						data: {
+							'r': remixInfo.id,
+							'source': remixInfo.img
+						},
+						success: function(imgURL) {
+							remixInfo.imgURL = imgURL;
+							next();
+						}
+					});
+				}
+
+				var publishRemix = function() {
+					showMask("Publishing Remix...");
+					jQuery.ajax({
+						type: 'POST',
+						url: jQuery.webxraySettings.url("hackpubURL") + "publish",
+						data: {
+							'html': remixInfo.html,
+							'original-url': hackpubInfo.originalURL
+						},
+						crossDomain: true,
+						dataType: 'json',
+						success: function() {
+							next();
+						}
+					});
+				}
+
+				var shortenURL = function() {
+					showMask("Shortening URL...");
+					$.ajax({
+						url: "../api/shorten.php",
+						method: "GET",
+						dataType: "json",
+						data: { url: remixInfo.url },
+						success: function(data, textStatus, jqXHR) {
+							if(data.status_code == 200)
+								remixInfo.url = data.data.url;
+							next();
+						}
+					});
+				}
+
+				var saveRemix = function() {
+					showMask("Saving Remix...");
+					$.ajax({
+						url: "../api/storage.php",
+						method: "GET",
+						data: {
+							r: remixInfo.id,
+							url: remixInfo.url
+						},
+						success: function(data, textStatus, jqXHR) {
+							next();
+						}
+					});
+				}
+
+				var renderDialog = function() {
+					var $dialog = jQuery.newModalDialog(input);
+
+					var $content = $("<div />")
+						.addClass("container")
+						.attr("id","uproot-dialog");
+
+					var $buttons = $("<div />")
+						.addClass("buttons")
+						.appendTo($content);
+
+					var $close = $("<div />")
+						.addClass("close-button")
+						.text(jQuery.locale.get("dialog-common:close"))
+						.click(function() {
+							$dialog.close();
+						})
+						.appendTo($buttons);
+
+					var $header = $("<div />")
+						.addClass("header")
+						.html("<h1>" + jQuery.locale.get("dialog-common:product-name") + "</h1><h2>" + jQuery.locale.get("uproot-dialog:header") + "</h2>")
+						.appendTo($content);
+
+					var $share = $("<div />")
+						.addClass("share")
+						.appendTo($content);
+
+					var $to_facebook = $("<div />")
+						.addClass("fb_share")
+						.appendTo($share);
+					
+					var $to_twitter = $("<div />")
+						.addClass("fb_share")
+						.appendTo($share);
+
+					var $to_img = $("<div />")
+						.addClass("fb_share")
+						.appendTo($share);
+
+					$dialog.populate($content);
+					next();
+				};
+
+				var showInterface = function() {
+					$(".webxray-hud-box").show();
+					$(".webxray-toolbar").show();
+					next();
+				}
+
+				// Populate the order of operations
+				$("body").queue("uproot", [
+					hideInterface,
+					createScreenshot,
+					saveImage,
+					publishRemix,
+					shortenURL,
+					saveRemix,
+					showInterface,
+					hideMask,
+					renderDialog,
+				]);
+
+				// Start the process
+				next();
 			});
 		}
 	});
@@ -683,6 +851,74 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 })(jQuery);
 
 
+
+(function(jQuery) {
+	var TAG_COLORS = ["#FFFFFF"];
+	var NUM_TAG_COLORS = TAG_COLORS.length;
+	var TAG_COLOR_MAP = {
+		img: 0,
+		p: 0,
+		div: 0,
+		a: 0,
+		span: 0,
+		body: 0,
+		h1: 0,
+		html: 0,
+		footer: 0
+	};
+	var DEFAULT_OVERLAY_OPACITY = 0.7;
+
+	function tagNameToNumber(tagName) {
+		var total = 0;
+		for (var i = 0; i < tagName.length; i++)
+			total += tagName.charCodeAt(i);
+		return total;
+	}
+
+	jQuery.extend({
+		// This is only really exported so unit tests can use it.
+		NUM_TAG_COLORS: NUM_TAG_COLORS,
+		
+		// Returns the color hex for the "official" Web X-Ray color
+		// for the given tag name, excluding angled brackets.
+		colorForTag: function colorForTag(tagName) {
+			var colorNumber;
+
+			tagName = tagName.toLowerCase();
+			if (tagName in TAG_COLOR_MAP)
+				colorNumber = TAG_COLOR_MAP[tagName];
+			else
+				colorNumber = (tagNameToNumber(tagName) % NUM_TAG_COLORS);
+
+			return TAG_COLORS[colorNumber];
+		}
+	});
+	jQuery.fn.extend({
+		// Applies the "official" Web X-Ray color for fromElement to
+		// the current set of matched elements with the given
+		// optional opacity. Returns the current set of matched
+		// elements to support chaining.
+		applyTagColor: function applyTagColor(fromElement, opacity) {
+			var bgColor;
+			var baseColor = $.colorForTag($(fromElement).get(0).nodeName);
+			
+			if (opacity === undefined)
+				opacity = DEFAULT_OVERLAY_OPACITY;
+
+			bgColor = $.makeRGBA(baseColor, opacity);
+
+			this.css({backgroundColor: bgColor});
+			return this;
+		},
+		// Like $.overlay(), but applies the "official" Web X-Ray color
+		// for the element type being overlaid, with the given opacity.
+		// A default opacity is used if none is provided.
+		overlayWithTagColor: function overlayWithTagColor(opacity) {
+			return $(this).overlay().applyTagColor(this, opacity);
+		}
+	});
+})(jQuery);
+
 /* Custom event / listener pattern */
 (function(jQuery) {
 	jQuery.eventEmitter = function eventEmitter(object) {
@@ -725,6 +961,23 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 		var ancestorOverlay = null;
 		var overlay = null;
 		var element = null;
+
+		function labelOverlay(overlay, target, finalSize) {
+			var parts = ["top", "bottom"];
+			if ($(target).isVoidElement())
+				parts = ["top"];
+			finalSize = finalSize || overlay;
+			parts.forEach(function(className) {
+				var part = $('<div class="webxray-base webxray-overlay-label">' + '</div>');
+				var tag = target.nodeName.toLowerCase();
+				part.addClass("webxray-overlay-label-" + className);
+				part.text("<" + (className == "bottom" ? "/" : "") + tag + ">");
+				overlay.append(part);
+				if (part.width() > $(finalSize).width() ||
+					part.height() > $(finalSize).height())
+					part.hide();
+			});
+		}
 
 		function setAncestorOverlay(ancestor, useAnimation) {
 			if (ancestorOverlay) {
@@ -783,6 +1036,98 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 		return instance;
 	}
 })(jQuery);
+
+/* HUD overlay stuff */
+
+(function(jQuery) {
+	var MAX_URL_LENGTH = 35;
+	jQuery.hudOverlay = function hudOverlay(options) {
+		if (options === undefined)
+			options = {};
+
+		var hudContainer = $('<div class="webxray-base webxray-hud-box"></div>');
+		var hud = $('<div class="webxray-base webxray-hud"></div>');
+		var locale = options.locale || jQuery.locale;
+		var l10n = locale.scope("hud-overlay");
+
+		hudContainer.append(hud);
+		function showDefaultContent() {
+			hud.html(options.defaultContent || l10n("default-html"));
+		}
+
+		showDefaultContent();
+
+		return {
+			overlayContainer: hudContainer[0],
+			overlay: hud[0],
+			destroy: function destroy() {
+				this.overlay = null;
+				hudContainer.remove();
+				hudContainer = null;
+				hud = null;
+			},
+			onFocusChange: function handleEvent(focused) {
+				function code(string) {
+					return $("<code></code>").text(string);
+				}
+
+				function elementInfo(element) {
+					var info = {
+						tagName: "<" + element.nodeName.toLowerCase() + ">",
+						id: element.id,
+						className: element.className,
+						url: element.href || element.src || element.action ||
+						element.currentSrc
+					};
+					
+					if (info.url && info.url.length)
+						info.url = $.shortenText(info.url, MAX_URL_LENGTH);
+					else
+						info.url = null;
+
+					return info;
+				}
+				
+				function elementDesc(element) {
+					var span = $("<span></span>");
+					var info = elementInfo(element);
+					var shortDescKey = "short-element-descriptions:" +
+					element.nodeName.toLowerCase();
+					if (locale.has(shortDescKey))
+						span.emit(code(info.tagName),
+							" (" + locale.get(shortDescKey) + ") ",
+							l10n("element"));
+					else
+						span.emit(code(info.tagName), " ", l10n("element"));
+					if (info.id)
+						span.emit(" ", l10n("with"), " ", l10n("id"), " ",
+							code(info.id));
+					if (info.className)
+						span.emit(" " + (info.id ? l10n("and") : l10n("with")),
+							" ", l10n("class"), " ",
+							code(info.className));
+					if (info.url) {
+						span.emit((info.id || info.className) ? "," : "",
+							" ", l10n("pointing-at"), " ",
+							$('<span class="webxray-url"></span>').text(info.url));
+					}
+					return span;
+				}
+				if (focused.element) {
+					var span = $("<span></span>");
+					span.emit(l10n("focused-intro"), " ",
+						elementDesc(focused.element), ".");
+					if (focused.ancestor)
+						span.emit(" ", l10n("ancestor-intro"), " ",
+							elementDesc(focused.ancestor), ".");
+					hud.empty().append(span);
+				} else
+				showDefaultContent();
+			}
+		};
+	};
+})(jQuery);
+
 
 
 /* TODO -- figure out what this is */
@@ -1843,6 +2188,57 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 			});
 			return dialog;
 		},
+
+		newModalDialog: function(input) {
+			var $modal = $('<div />')
+				.addClass('webxray-base')
+				.addClass('webxray-dialog-overlay')
+				.appendTo($("body"));
+
+			var $outer = $('<div />')
+				.addClass('webxray-base')
+				.addClass('webxray-dialog-outer')
+				.appendTo($modal);
+
+			var $middle = $('<div />')
+				.addClass('webxray-base')
+				.addClass('webxray-dialog-middle')
+				.appendTo($outer);
+
+			var $inner = $('<div />')
+				.addClass('webxray-base')
+				.addClass('webxray-dialog-inner')
+				.appendTo($middle);
+
+			var dialog = {
+				close: function close(cb) {
+					$modal.fadeOut(function() {
+						$modal.remove();
+						$modal = null;
+
+						// Firefox seems to trigger a mouseout/mouseover event
+						// when we remove the dialog div, so we'll wait a moment
+						// before re-activating input so that we don't distract
+						// the user by focusing on whatever their mouse happens
+						// to be over when the dialog closes.
+						setTimeout(function() {
+							input.activate();
+							input = null;
+							window.focus();
+							if (cb)
+								cb();
+						}, 50);
+					});
+				},
+				populate: function($content) {
+					$inner.append($content);
+				}
+			};
+
+			input.deactivate();
+			return dialog;
+		},
+
 		modalDialog: function(options) {
 			var input = options.input;
 			var body = options.body || document.body;
@@ -2484,6 +2880,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 	jQuery.extend({
 		xRayUI: function xRayUI(options) {
 			var isUnloaded = false;
+			var hud = jQuery.hudOverlay();
 			var focused = jQuery.focusedOverlay({
 				useAnimation: true
 			});
@@ -2550,6 +2947,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 				// These exports are primarily for use by third-party code.
 				jQuery: jQuery,
 				focusedOverlay: focused,
+				hudOverlay: hud,
 				mixMaster: mixMaster,
 				styleInfoOverlay: styleInfo,
 				commandManager: commandManager,
