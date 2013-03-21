@@ -11,7 +11,7 @@
 	//           B :)
 	//             B)  -  DEAL WITH IT
 	global $BASE_DIRECTORY;
-	$parsed_url = parse_url($_SERVER['REQUEST_URI']);
+	$parsed_url = parse_url($_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
 
 	$path_items = array_splice(explode("/", $parsed_url['path']), substr_count($BASE_DIRECTORY, "/"));
 
