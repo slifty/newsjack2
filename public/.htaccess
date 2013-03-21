@@ -5,7 +5,7 @@ RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^ - [L]
 
 # Enable the API
-RewriteRule ^api.* "../includes/engine/api.php" [L]
+RewriteRule ^api.* "index.php?api=1" [QSA]
 
 # Enable Engine Rendering
-RewriteRule ^ "../includes/engine/page.php" [L]
+RewriteRule ^ "index.php" [L]

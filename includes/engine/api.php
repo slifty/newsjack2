@@ -1,5 +1,4 @@
 <?php
-	set_include_path('../../');
 	include_once('conf.php');
 	include_once(__DIR__.'/engine.php');
 
