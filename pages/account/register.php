@@ -17,7 +17,7 @@
 	</head>
 	<body>
 		<?php include("includes/partials/header.php"); ?>
-		<div id="content">
+		<div class="content">
 			<h1>Register an Account</h1>
 			<form method="post">
 				<ul>

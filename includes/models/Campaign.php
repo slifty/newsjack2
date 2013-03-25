@@ -63,7 +63,7 @@ class Campaign extends FactoryObject{
 						  FROM campaigns
 						 WHERE campaigns.id IN (".$objectString.")";
 		if($length != FactoryObject::LIMIT_ALL) {
-			$query_string .= "
+			$queryString .= "
 						 LIMIT ".DBConn::clean($start).",".DBConn::clean($length);
 		}
 		

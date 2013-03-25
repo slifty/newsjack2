@@ -16,7 +16,7 @@
 	</head>
 	<body>
 		<?php include("includes/partials/header.php"); ?>
-		<div id="content">
+		<div class="content">
 			<h1>Log In</h1>
 			<form method="post">
 				<ul>

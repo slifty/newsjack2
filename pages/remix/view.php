@@ -1,5 +1,6 @@
 <?php
 	include_once("includes/common.php");
+	global $BASE_DIRECTORY;
 	
 	if(!User::isAdministrator()) {
 		header("Location: login.php");
@@ -29,7 +30,7 @@
 			$remix->delete();
 		}
 		
-		header("Location: gallery.php?c=".$campaign_id);
+		header("Location: ".$BASE_DIRECTORY."campaign/gallery.php?c=".$campaign_id);
 		exit();
 	}
 ?>

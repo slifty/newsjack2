@@ -37,11 +37,11 @@
 								<?php
 									if(User::isAdministrator()) {
 										?>
-										<div class="delete"><form action="remix_entry.php?r=<?php echo($remix->getItemId()); ?>" method="post"><input type="submit" name="delete" value="delete" /></form></div>
+										<div class="delete"><form action="<?php echo($BASE_DIRECTORY);?>remix/view.php?r=<?php echo($remix->getItemId()); ?>" method="post"><input type="submit" name="delete" value="delete" /></form></div>
 										<?php if($remix->getIsFeatured()) { ?>
-											<div class="unfeature"><form action="remix_entry.php?r=<?php echo($remix->getItemId()); ?>" method="post"><input type="submit" name="unfeature" value="unfeature" /></form></div>
+											<div class="unfeature"><form action="<?php echo($BASE_DIRECTORY);?>remix/view.php?r=<?php echo($remix->getItemId()); ?>" method="post"><input type="submit" name="unfeature" value="unfeature" /></form></div>
 										<?php } else { ?>
-											<div class="unfeature"><form action="remix_entry.php?r=<?php echo($remix->getItemId()); ?>" method="post"><input type="submit" name="feature" value="feature" /></form></div>
+											<div class="unfeature"><form action="<?php echo($BASE_DIRECTORY);?>remix/view.php?r=<?php echo($remix->getItemId()); ?>" method="post"><input type="submit" name="feature" value="feature" /></form></div>
 										<?php } ?>
 										<?php
 									}
