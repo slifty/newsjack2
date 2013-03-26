@@ -60,7 +60,7 @@
   right: 0px;
   color: white;
   background-color: rgba(66, 66, 66, .9);
-  z-index: 2147483645;
+  z-index: 2147483642;
   padding: 10px;
 }
 
@@ -469,7 +469,7 @@ div.webxray-toolbar-button-glyph-tiny {
   height: 100%;
   width: 100%;
   background: #000;
-  z-index: 2147483643;
+  z-index: 2147483645;
 }
 #newsjack-mask h1 {
   font-family: verdana;
