@@ -28,7 +28,9 @@
 						?>
 						<li class="remix">
 							<div class="image">
-								<?php if($remix->getImgURL() != "") { ?>
+								<?php if($remix->getThumbURL() != "") { ?>
+									<a href="<?php echo($remix->getRemixURL()); ?>"><img src="<?php echo($BASE_DIRECTORY.$remix->getThumbURL()); ?>"/></a>
+								<?php } elseif($remix->getImgURL() != "") { ?>
 									<a href="<?php echo($remix->getRemixURL()); ?>"><img src="<?php echo($BASE_DIRECTORY.$remix->getImgURL()); ?>"/></a>
 								<?php } ?>
 							</div>

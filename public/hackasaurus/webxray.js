@@ -621,6 +621,11 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					"imgURL": null,
 					"html": null,
 					"url": null,
+					"thumb_x": null,
+					"thumb_y": null,
+					"thumb_h": null,
+					"thumb_w": null,
+					"pubURL": null
 				}
 
 				// Set basic information
@@ -655,7 +660,6 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 
 				var hideMask = function() {
 					$("#newsjack-mask").remove();
-					next();
 				}
 
 				var hideInterface = function() {
@@ -686,7 +690,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 							'source': remixInfo.img
 						},
 						success: function(imgURL) {
-							remixInfo.imgURL = imgURL;
+							remixInfo.imgURL = GLOBAL_BASE_PATH + imgURL;
 							next();
 						}
 					});
@@ -703,7 +707,8 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 						},
 						crossDomain: true,
 						dataType: 'json',
-						success: function() {
+						success: function(data) {
+							remixInfo.pubURL = data["published-url"];
 							next();
 						}
 					});
@@ -713,12 +718,12 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					showMask("Shortening URL...");
 					$.ajax({
 						url: "../api/shorten.php",
-						method: "GET",
+						type: "GET",
 						dataType: "json",
-						data: { url: remixInfo.url },
+						data: { url: remixInfo.pubURL },
 						success: function(data, textStatus, jqXHR) {
 							if(data.status_code == 200)
-								remixInfo.url = data.data.url;
+								remixInfo.pubURL = data.data.url;
 							next();
 						}
 					});
@@ -728,13 +733,32 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					showMask("Saving Remix...");
 					$.ajax({
 						url: "../api/storage.php",
-						method: "GET",
+						type: "GET",
 						data: {
 							r: remixInfo.id,
-							url: remixInfo.url
+							url: remixInfo.pubURL
 						},
 						success: function(data, textStatus, jqXHR) {
 							next();
+						}
+					});
+				}
+
+				var saveThumb = function() {
+					showMask("Saving Thumbnail...");
+					$.ajax({
+						url: "../api/savethumb.php",
+						type: "POST",
+						dataType: "json",
+						data: {
+							r: remixInfo.id,
+							x: remixInfo.thumb_x,
+							y: remixInfo.thumb_y,
+							h: remixInfo.thumb_h,
+							w: remixInfo.thumb_w
+						},
+						success: function(data, textStatus, jqXHR) {
+							hideMask();
 						}
 					});
 				}
@@ -760,24 +784,94 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 
 					var $header = $("<div />")
 						.addClass("header")
-						.html("<h1>" + jQuery.locale.get("dialog-common:product-name") + "</h1><h2>" + jQuery.locale.get("uproot-dialog:header") + "</h2>")
+						.html("<h1>" + jQuery.locale.get("dialog-common:product-name") + "</h1>")
 						.appendTo($content);
 
 					var $share = $("<div />")
 						.addClass("share")
+						.html("<a href='" + remixInfo.pubURL +  "'' target='_blank'>View your Remix</a>")
 						.appendTo($content);
+
+					var $share_header = $("<h2 />")
+						.addClass("share_header")
+						.html("Share your Remix")
+						.appendTo($share);
 
 					var $to_facebook = $("<div />")
 						.addClass("fb_share")
+						.html("<a href='http://www.facebook.com/sharer.php?src=sp&u=" + encodeURI(remixInfo.pubURL) + "' target='_blank'>Share on Facebook</a>")
 						.appendTo($share);
 					
 					var $to_twitter = $("<div />")
-						.addClass("fb_share")
+						.addClass("twitter_share")
+						.html("<a href='https://twitter.com/intent/tweet?text=Breaking%20News!&url=" + encodeURI(remixInfo.pubURL) + "' target='_blank'>Share on Twitter</a>")
 						.appendTo($share);
 
 					var $to_img = $("<div />")
-						.addClass("fb_share")
+						.addClass("img_share")
+						.html("<a href='" + remixInfo.imgURL + "' target='_blank'>Save as an Image</a>")
 						.appendTo($share);
+
+					var $thumb = $("<div />")
+						.addClass("thumbnail")
+						.appendTo($content);
+
+					var $thumb_header = $("<h2 />")
+						.addClass("thumbnail_header")
+						.html("Submit to the Gallery")
+						.appendTo($share);
+
+					var $full_container = $("<div />")
+						.addClass("full_container")
+						.appendTo($thumb);
+
+					var $full_image = $("<img />")
+						.attr("src", remixInfo.imgURL)
+						.addClass("full_image")
+						.appendTo($full_container);
+
+					var $preview_container = $("<div />")
+						.addClass("preview_container")
+						.appendTo($thumb);
+
+					var $preview_image = $("<img />")
+						.attr("src", remixInfo.imgURL)
+						.addClass("preview_image")
+						.appendTo($preview_container);
+
+					var $save_thumb = $("<input type='button' />")
+						.addClass("save_thumb")
+						.val("Save Thumbnail")
+						.click(function() {
+							if(remixInfo.thumb_x == null)
+								return;
+							saveThumb();
+						})
+						.appendTo($thumb);
+
+					function showPreview(coords) {
+						var rx = 100 / coords.w;
+						var ry = 100 / coords.h;
+
+						$preview_image.css({
+							width: Math.round(rx * $full_image.width()) + 'px',
+							height: Math.round(ry * $full_image.height()) + 'px',
+							marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+							marginTop: '-' + Math.round(ry * coords.y) + 'px'
+						});
+
+						remixInfo.thumb_x = coords.x;
+						remixInfo.thumb_y = coords.y;
+						remixInfo.thumb_h = coords.h;
+						remixInfo.thumb_w = coords.w;
+					}
+
+					$full_image.Jcrop({
+						onChange: showPreview,
+						onSelect: showPreview,
+						aspectRatio: 1
+					});
+
 
 					$dialog.populate($content);
 					next();
@@ -798,7 +892,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					shortenURL,
 					saveRemix,
 					showInterface,
-					hideMask,
+					function() { hideMask(); next();},
 					renderDialog,
 				]);
 

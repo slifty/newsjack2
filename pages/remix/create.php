@@ -22,6 +22,7 @@
 	$injection = '<script type="text/javascript" src="'.$BASE_DIRECTORY.'js/jquery.min.js" charset="utf-8"></script>';
 	$injection .= '<script type="text/javascript" src="'.$BASE_DIRECTORY.'hackasaurus/webxray.js" class="webxray"></script>';
 	$injection .= '<script type="text/javascript">var remix_id = '.$remix->getItemID().';var remix_url = "'.$remix->getOriginalURL().'";var campaignId="'.(isset($_GET['c'])?$_GET['c']:"").'";</script>';
+	$injection .= '<script type="text/javascript" src="'.$BASE_DIRECTORY.'js/jquery.jcrop.min.js" charset="utf-8"></script>';
 	$injection .= '<script type="text/javascript" src="'.$BASE_DIRECTORY.'js/html2canvas.js" charset="utf-8"></script>';
 
 	$html = preg_replace("<.*body.*>","<body><div id='newsjack_content'>", $html, 1);

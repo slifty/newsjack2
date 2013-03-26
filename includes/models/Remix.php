@@ -20,6 +20,7 @@ class Remix extends FactoryObject{
 	private $remixDOM; // string
 	private $remixURL; // string
 	private $imgURL; // string
+	private $thumbURL; // string
 	private $isFeatured; // bool
 	private $dateCreated; // timestamp
 		
@@ -43,6 +44,7 @@ class Remix extends FactoryObject{
 			$dataArray['remixDOM'] = "";
 			$dataArray['remixURL'] = "";
 			$dataArray['imgURL'] = "";
+			$dataArray['thumbURL'] = "";
 			$dataArray['isFeatured'] = "";
 			$dataArray['dateCreated'] = 0;
 			$dataArrays[] = $dataArray;
@@ -59,6 +61,7 @@ class Remix extends FactoryObject{
 			$dataArray['remixDOM'] = "";
 			$dataArray['remixURL'] = "";
 			$dataArray['imgURL'] = "";
+			$dataArray['thumbURL'] = "";
 			$dataArray['isFeatured'] = "";
 			$dataArray['dateCreated'] = 0;
 			$dataArrays[] = $dataArray;
@@ -76,6 +79,7 @@ class Remix extends FactoryObject{
 							   remixes.remix_dom AS remixDOM,
 							   remixes.remix_url AS remixURL,
 							   remixes.img_url AS imgURL,
+							   remixes.thumb_url AS thumbURL,
 							   remixes.is_featured AS isFeatured,
 							   unix_timestamp(remixes.date_created) AS dateCreated
 						  FROM remixes
@@ -97,6 +101,7 @@ class Remix extends FactoryObject{
 			$dataArray['remixDOM'] = $resultArray['remixDOM'];
 			$dataArray['remixURL'] = $resultArray['remixURL'];
 			$dataArray['imgURL'] = $resultArray['imgURL'];
+			$dataArray['thumbURL'] = $resultArray['thumbURL'];
 			$dataArray['isFeatured'] = $resultArray['isFeatured'];
 			$dataArray['dateCreated'] = $resultArray['dateCreated'];
 			$dataArrays[] = $dataArray;
@@ -114,6 +119,7 @@ class Remix extends FactoryObject{
 		$this->remixDOM = isset($dataArray["remixDOM"])?$dataArray["remixDOM"]:"";
 		$this->remixURL = isset($dataArray["remixURL"])?$dataArray["remixURL"]:"";
 		$this->imgURL = isset($dataArray["imgURL"])?$dataArray["imgURL"]:"";
+		$this->thumbURL = isset($dataArray["thumbURL"])?$dataArray["thumbURL"]:"";
 		$this->isFeatured = isset($dataArray["isFeatured"])?$dataArray["isFeatured"]:"";
 		$this->dateCreated = isset($dataArray["dateCreated"])?$dataArray["dateCreated"]:0;
 	}
@@ -138,6 +144,7 @@ class Remix extends FactoryObject{
 								   remixes.remix_dom = ".DBConn::clean($this->getRemixDOM()).",
 								   remixes.remix_url = ".DBConn::clean($this->getRemixURL()).",
 								   remixes.img_url = ".DBConn::clean($this->getImgURL()).",
+								   remixes.thumb_url = ".DBConn::clean($this->getThumbURL()).",
 								   remixes.is_featured = ".DBConn::clean($this->getIsFeatured())."
 							 WHERE remixes.id = ".DBConn::clean($this->getItemID());
 			
@@ -152,6 +159,7 @@ class Remix extends FactoryObject{
 									remixes.remix_dom,
 									remixes.remix_url,
 									remixes.img_url,
+									remixes.thumb_url,
 									remixes.is_featured,
 									remixes.date_created)
 							VALUES (0,
@@ -161,6 +169,7 @@ class Remix extends FactoryObject{
 									".DBConn::clean($this->getRemixDOM()).",
 									".DBConn::clean($this->getRemixURL()).",
 									".DBConn::clean($this->getImgURL()).",
+									".DBConn::clean($this->getThumbURL()).",
 									".DBConn::clean($this->getIsFeatured()).",
 									NOW())";
 			
@@ -180,7 +189,6 @@ class Remix extends FactoryObject{
 		$queryString = "DELETE FROM remixes
 						 WHERE remixes.id = ".DBConn::clean($this->getItemID());
 		$mysqli->query($queryString);
-		
 	}
 	
 	
@@ -196,6 +204,8 @@ class Remix extends FactoryObject{
 	public function getRemixURL() { return $this->remixURL; }
 	
 	public function getImgURL() { return $this->imgURL; }
+	
+	public function getThumbURL() { return $this->thumbURL; }
 	
 	public function getIsFeatured() { return $this->isFeatured; }
 	
@@ -214,6 +224,8 @@ class Remix extends FactoryObject{
 	public function setRemixURL($str) { $this->remixURL = $str; }
 	
 	public function setImgURL($str) { $this->imgURL = $str; }
+
+	public function setThumbURL($str) { $this->thumbURL = $str; }
 	
 	public function setIsFeatured($bool) { $this->isFeatured = $bool; }
 
