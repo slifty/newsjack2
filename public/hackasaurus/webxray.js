@@ -9,12 +9,6 @@ var Webxray = (function() {
 			a.setAttribute("href", "./");
 			return a.href;
 		},
-		getBookmarkletURL: function getBookmarkletURL(baseURI) {
-			baseURI = baseURI || this._getBaseURI();
-			var baseCode = "(function(){var script=document.createElement('script');script.src='http://localhost:8000/webxray.js';script.className='webxray';document.body.appendChild(script);})();";
-			var code = baseCode.replace('http://localhost:8000/', baseURI);
-			return 'javascript:' + code;
-		},
 		whenLoaded: function whenLoaded(cb, global) {
 			global = global || window;
 			global[GLOBAL_GOGGLES_LOAD_CB] = cb;
@@ -758,6 +752,8 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 							w: remixInfo.thumb_w
 						},
 						success: function(data, textStatus, jqXHR) {
+							alert("Submitted!");
+							$(".thumbnail").hide();
 							hideMask();
 						}
 					});
@@ -784,42 +780,62 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 
 					var $header = $("<div />")
 						.addClass("header")
-						.html("<h1>" + jQuery.locale.get("dialog-common:product-name") + "</h1>")
+						.html("<h1>Share your Remix</h1>")
+						.appendTo($content);
+
+					var $sharelist = $("<div />")
+						.addClass("sharelist")
 						.appendTo($content);
 
 					var $share = $("<div />")
 						.addClass("share")
-						.html("<a href='" + remixInfo.pubURL +  "'' target='_blank'>View your Remix</a>")
-						.appendTo($content);
-
-					var $share_header = $("<h2 />")
-						.addClass("share_header")
-						.html("Share your Remix")
-						.appendTo($share);
+						.addClass("web_share")
+						.html("<a href='" + remixInfo.pubURL +  "'' target='_blank'></a>")
+						.appendTo($sharelist);
 
 					var $to_facebook = $("<div />")
+						.addClass("share")
 						.addClass("fb_share")
-						.html("<a href='http://www.facebook.com/sharer.php?src=sp&u=" + encodeURI(remixInfo.pubURL) + "' target='_blank'>Share on Facebook</a>")
-						.appendTo($share);
+						.html("<a href='http://www.facebook.com/sharer.php?src=sp&u=" + encodeURI(remixInfo.pubURL) + "' target='_blank'></a>")
+						.appendTo($sharelist);
 					
 					var $to_twitter = $("<div />")
+						.addClass("share")
 						.addClass("twitter_share")
-						.html("<a href='https://twitter.com/intent/tweet?text=Breaking%20News!&url=" + encodeURI(remixInfo.pubURL) + "' target='_blank'>Share on Twitter</a>")
-						.appendTo($share);
+						.html("<a href='https://twitter.com/intent/tweet?text=Breaking%20News!&url=" + encodeURI(remixInfo.pubURL) + "' target='_blank'></a>")
+						.appendTo($sharelist);
 
 					var $to_img = $("<div />")
+						.addClass("share")
 						.addClass("img_share")
-						.html("<a href='" + remixInfo.imgURL + "' target='_blank'>Save as an Image</a>")
-						.appendTo($share);
+						.html("<a href='" + remixInfo.imgURL + "' target='_blank'></a>")
+						.appendTo($sharelist);
 
 					var $thumb = $("<div />")
 						.addClass("thumbnail")
 						.appendTo($content);
 
 					var $thumb_header = $("<h2 />")
-						.addClass("thumbnail_header")
+						.addClass("gallery-header")
 						.html("Submit to the Gallery")
-						.appendTo($share);
+						.appendTo($thumb);
+
+					var $thumb_header = $("<p />")
+						.addClass("gallery-description")
+						.html("Select part of the screenshot below to feature your remix in our gallery.")
+						.appendTo($thumb);
+
+					var $save_thumb = $("<div />")
+						.addClass("save_thumb")
+						.html("Submit to Gallery")
+						.click(function() {
+							if(remixInfo.thumb_x == null) {
+								alert("Please be sure to select a thumbnail first")
+								return;
+							}
+							saveThumb();
+						})
+						.appendTo($thumb);
 
 					var $full_container = $("<div />")
 						.addClass("full_container")
@@ -830,35 +846,25 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 						.addClass("full_image")
 						.appendTo($full_container);
 
-					var $preview_container = $("<div />")
-						.addClass("preview_container")
-						.appendTo($thumb);
+					// var $preview_container = $("<div />")
+					// 	.addClass("preview_container")
+					// 	.appendTo($thumb);
 
-					var $preview_image = $("<img />")
-						.attr("src", remixInfo.imgURL)
-						.addClass("preview_image")
-						.appendTo($preview_container);
-
-					var $save_thumb = $("<input type='button' />")
-						.addClass("save_thumb")
-						.val("Save Thumbnail")
-						.click(function() {
-							if(remixInfo.thumb_x == null)
-								return;
-							saveThumb();
-						})
-						.appendTo($thumb);
+					// var $preview_image = $("<img />")
+					// 	.attr("src", remixInfo.imgURL)
+					// 	.addClass("preview_image")
+					// 	.appendTo($preview_container);
 
 					function showPreview(coords) {
 						var rx = 100 / coords.w;
 						var ry = 100 / coords.h;
 
-						$preview_image.css({
-							width: Math.round(rx * $full_image.width()) + 'px',
-							height: Math.round(ry * $full_image.height()) + 'px',
-							marginLeft: '-' + Math.round(rx * coords.x) + 'px',
-							marginTop: '-' + Math.round(ry * coords.y) + 'px'
-						});
+						// $preview_image.css({
+						// 	width: Math.round(rx * $full_image.width()) + 'px',
+						// 	height: Math.round(ry * $full_image.height()) + 'px',
+						// 	marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+						// 	marginTop: '-' + Math.round(ry * coords.y) + 'px'
+						// });
 
 						remixInfo.thumb_x = coords.x;
 						remixInfo.thumb_y = coords.y;
@@ -2284,6 +2290,8 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 		},
 
 		newModalDialog: function(input) {
+			input.deactivate();
+			$(".webxray-overlay").hide();
 			var $modal = $('<div />')
 				.addClass('webxray-base')
 				.addClass('webxray-dialog-overlay')
@@ -2307,6 +2315,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 			var dialog = {
 				close: function close(cb) {
 					$modal.fadeOut(function() {
+						input.activate();
 						$modal.remove();
 						$modal = null;
 
@@ -2948,7 +2957,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 	}
 	function addExplanation(hud, input) {
 		var explanation = $('<div class="webxray-base webxray-explanation"></div>');
-		explanation.html('<h1 class="webxray-base">' + jQuery.locale.get("introduction:headline") + '</h1><p class="webxray-base">' + jQuery.locale.get("introduction:explanation") + '</p>');
+		//explanation.html('<h1 class="webxray-base">' + jQuery.locale.get("introduction:headline") + '</h1><p class="webxray-base">' + jQuery.locale.get("introduction:explanation") + '</p>');
 		$(hud.overlayContainer).append(explanation);
 	}
 	// If the user has made changes to the page, we don't want them

@@ -198,6 +198,7 @@ span.webxray-more-info {
     top: 0px;
     left: 0px;
     right: 0px;
+    height: 100%;
     bottom: 0px;
 }
 
@@ -515,7 +516,25 @@ div.webxray-toolbar-button-glyph-tiny {
 
 
 div.webxray-dialog-overlay { z-index: 2147483644; }
-div.webxray-dialog-inner { border: 3px solid #69AB34; background-color: #E5F1DA; padding: 20px; }
+div.webxray-dialog-inner { border: 3px solid #69AB34; background-color: #E5F1DA; }
+div.webxray-dialog-inner .header { font-size: 32px; border-bottom: double 3px #333333; margin: 5px; }
+div.webxray-dialog-inner .container { background: #fff; border: 1px solid #69AB34; height: 100%; overflow: auto; }
 div.webxray-dialog-inner .close-button { float: right; cursor: pointer; color: #fff; background: #69AB34; padding: 5px; font-size: 16px; }
-div.webxray-dialog-inner .full_container { height: 400px; width: 50%; overflow: auto; float: left; }
-div.webxray-dialog-inner .preview_container { height: 100px; width: 100px; margin-left: 55%; overflow: hidden;}
+div.webxray-dialog-inner .full_container { height: 400px; width: 90%; margin: auto; overflow: auto; border: 2px solid #69AB34; }
+div.webxray-dialog-inner .preview_container { height: 100px; width: 100px; overflow: hidden; }
+
+div.webxray-dialog-inner .gallery-description { float: left; height: 50px; width: 65%; margin-left: 5%; font-size: 14px; }
+div.webxray-dialog-inner .save_thumb { float: right; margin-right: 5%; cursor: pointer; color: #fff; background: #69AB34; padding: 5px; font-size: 16px; margin-bottom: 10px; }
+
+div.webxray-dialog-inner h2 { border-bottom: double 3px #333333; margin-bottom: 10px; clear: left; }
+
+div.webxray-dialog-inner .thumbnail { margin: 5px; }
+div.webxray-dialog-inner .sharelist { height: 100px; margin: 20px; margin-left: 5%; }
+div.webxray-dialog-inner .share { float: left; height: 100px; width: 100px; text-align: center; margin-right: 10px; margin-bottom: 10px; }
+div.webxray-dialog-inner .share a { display: block; height: 100%; width: 100%; }
+div.webxray-dialog-inner .web_share { background: url('../img/share/web.png'); background-size: 100%; }
+div.webxray-dialog-inner .fb_share { background: url('../img/share/facebook.png'); background-size: 100%; }
+div.webxray-dialog-inner .twitter_share { background: url('../img/share/twitter.png'); background-size: 100%; }
+div.webxray-dialog-inner .img_share { background: url('../img/share/image.png'); background-size: 100%; }
+
+div.webxray-dialog-inner h1 { font-family: 'impact'; font-weight: normal; font-size: 48px; margin-top: 0px; margin-bottom: 0px; }

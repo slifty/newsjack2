@@ -1,9 +1,8 @@
-.content {
-	width: 660px;
-	margin: 40px auto;
-	padding: 30px;
-    border: solid 2px #333333;
-	background: white;
+
+
+body {
+  background: url('../img/wood.jpg');
+  background-size: 100%;
 }
 
 #preform {

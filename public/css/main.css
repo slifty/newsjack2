@@ -7,9 +7,9 @@ html, body {
   margin: 0px;
   color: #000000;
   height: 100%;
-  /* If the browser doesn't support gradients, just use a white background. */
   background-color: #EEEEDD;
 }
+
 
 h2 {
   color: #000000;
@@ -22,9 +22,30 @@ p {
 	margin-bottom: 5px;
 }
 
-#content {
-	width: 1000 px;
-	margin: auto;
+#content-wrapper {
+  padding-top: 100px;
+}
+
+#tablet-wrapper {
+  background-image: url('../img/tablet.png');
+  background-size: 100%;
+  width: 700px;
+  height: 430px;
+  margin: auto;
+  padding: 100px 100px; 
+}
+
+#paper-content {
+  background-image: url('../img/paper.png');
+  background-size: 100%;
+  height: 975px;
+  width: 764px;
+}
+
+#tablet-content {
+  height: 300px;
+  width: 500px;
+  overflow: auto;
 }
 
 form li {
@@ -39,40 +60,59 @@ form li label {
 	cursor: pointer;
 }
 
-.hackpub-top-bar {
+#newsjack-header {
+  position: fixed;
   top: 0px;
   left: 0px;
-  right: 0px;
-  padding: 5px;
-  background: rgba(0, 0, 0, 1);
-  color: white;
-  font-size: 12px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-image: url('../img/header-bg.png');
+  width: 100%;
+  height: 88px;
   z-index: 2000000000;
-  height: 150px;
-  border-bottom: 1px solid #666666;
 }
 
 #newsjack-logo {
-	float: left;
+  margin: 3px auto;
+  background-image: url('../img/header-title.png');
+  background-size: 100%;
+  width: 444px;
+  height: 68px;
 }
 
-#newsjack-logo img {
-	height: 150px;
+@media only screen and (min-width: 800px) and (max-width: 1080px) {
 }
 
-#newsjack-logo .desc {
-	font-size: 24px;
+@media only screen and (min-width: 800px) and (max-width: 900px ) {
 }
 
-.hackpub-top-bar h1 {
-	color: #AFF;
-	font-weight: bold;
-	font-size: 18px;
-	margin-top: 0px;
-	margin-bottom: 0px;
+@media only screen and (min-width: 500px) and (max-width: 799px ) {
 }
 
-.hackpub-top-bar a {
-  color: white;
+@media only screen and (max-width: 899px) {
+  #tablet-wrapper {
+    background-image: none;
+    background: #FFF;
+    border: 5px solid #000;
+    width: 80%;
+    height: 300px;
+    margin: auto;
+    margin-bottom: 20px; 
+    padding: 20px; 
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #tablet-content {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+
+  #newsjack-logo {
+    margin: 3px auto;
+    background-image: url('../img/header-title.png');
+    background-size: 100%;
+    width: 333px;
+    height: 53px;
+    margin-top: 15px;
+  }
 }
