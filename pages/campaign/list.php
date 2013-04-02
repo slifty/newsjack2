@@ -13,7 +13,7 @@
 	<head>
 		<title>Campaigns</title>
 		<?php include("includes/partials/head.php"); ?>
-		<link rel="stylesheet" href="css/campaigns.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="<?php echo($BASE_DIRECTORY); ?>css/campaign_list.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	</head>
 	<body>
 		<?php include("includes/partials/header.php"); ?>
