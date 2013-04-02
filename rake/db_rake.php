@@ -182,6 +182,17 @@
 			echo("Updating app version\n");
 			$mysqli->query("UPDATE appinfo set version ='12';") or print($mysqli->error);
 			
+		case '12':
+			echo("Creating suggestions table\n");
+			$mysqli->query("CREATE TABLE suggestions (id int auto_increment primary key,
+												campaign_id text,
+												title text,
+												url text,
+												date_created datetime)") or print($mysqli->error);
+			
+			echo("Updating app version\n");
+			$mysqli->query("UPDATE appinfo set version ='13';") or print($mysqli->error);
+			
 		default:
 			echo("Finished updating the schema\n");
 	}

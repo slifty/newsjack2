@@ -3,7 +3,7 @@
 	global $BASE_DIRECTORY;
 
 	if(User::isLoggedIn()) {
-		Header("Location: ".$BASE_DIRECTORY."index.php");
+		header("Location: ".$BASE_DIRECTORY);
 		exit();
 	}
 	

@@ -627,8 +627,8 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 				remixInfo.url = remix_url;
 				
 				// Insert remix header
-				html += '<script>hackpubInfo = ' + JSON.stringify(hackpubInfo) + '</script>';
-				html += '<script src="' + injectURL + '"></script>';
+				//html += '<script>hackpubInfo = ' + JSON.stringify(hackpubInfo) + '</script>';
+				//html += '<script src="' + injectURL + '"></script>';
 				remixInfo.html = html;
 
 				// Set up Queue Variable
@@ -1874,6 +1874,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 				var sendFullDocument = options.sendFullDocument;
 				var MAX_HTML_LENGTH = 5000;
 				var focusedElement =  focused.getPrimaryElement();
+
 				if (!focusedElement)
 					return;
 

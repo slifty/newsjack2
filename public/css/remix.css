@@ -16,6 +16,8 @@
   height: 68px;
 }
 
+#newsjack_content { padding-top:70px; }
+
 @media only screen and (max-width: 600px) {
   #newsjack-logo {
     margin: 3px auto;

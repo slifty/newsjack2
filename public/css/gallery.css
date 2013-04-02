@@ -13,3 +13,23 @@ li.remix .image img {
 	max-height: 150px;
 	max-width: 140px;
 }
+
+.section { border-bottom: 1px solid black; margin-bottom: 10px; padding-bottom: 10px; margin-right: 20px; }
+
+#campaign { margin-bottom: 20px; }
+#campaign p { margin-left: 20px; }
+
+#suggestions { }
+#suggestions ul {margin-left: 20px; }
+#suggestions li { list-style: none; }
+
+#remixes {}
+#remixes ul { margin-left: 20px; }
+#remixes li { list-style: none; }
+
+#breadcrumb { margin: 10px 0px; }
+
+#remixes { border-bottom: 0px; }
+
+#remixes li { float: left; text-align: center; height: 200px; width: 150px; margin: 10px; }
+.image img { width: 100px; height: 100px; border: 1px solid #666; }

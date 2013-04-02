@@ -1,6 +1,7 @@
 <?php
 require_once("includes/engine/classes/FactoryObject.php");
 require_once(__DIR__."/LocaleMod.php");
+require_once(__DIR__."/Suggestion.php");
 
 class Campaign extends FactoryObject{
 	
@@ -14,6 +15,7 @@ class Campaign extends FactoryObject{
 	
 	# Caches
 	private $localeMods; // array
+	private $suggestions; // array
 	
 	public function __construct($itemID = FactoryObject::INIT_EMPTY) {
 		$dataArrays = static::gatherData((int)$itemID);
@@ -175,6 +177,14 @@ class Campaign extends FactoryObject{
 		
 		$this->localeMods = LocaleMod::getObjectsByCampaignID($this->getItemID());
 		return $this->localeMods;
+	}
+	
+	public function getSuggestions() {
+		// Check cache first
+		if(!is_null($this->suggestions)) return $this->suggestions;
+		
+		$this->suggestions = Suggestion::getObjectsByCampaignID($this->getItemID());
+		return $this->suggestions;
 	}
 	
 	

@@ -1,40 +1,30 @@
 <?php
 	include_once("includes/common.php");
-	$campaign = Campaign::getObject(isset($_GET['c'])?$_GET['c']:0);
 ?>
 <html>
 	<head>
 		<title>NewsJack</title>
 		<?php include("includes/partials/head.php"); ?>
+		<link rel="stylesheet" href="<?php echo($BASE_DIRECTORY); ?>css/index.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	</head>
 	<body>
 		<?php include("includes/partials/header.php"); ?>
-		<div id="content-wrapper">
-			<div id="tablet-wrapper">
-				<div id="tablet-content">
-					<div id="preform">
-						<h2>Pick a site to Remix</h2>
-						<ul id="paperlist">
-							<li id="cnn" ><a href="remix/create.php?url=http://www.cnn.com<?php echo("&c=".$campaign->getItemId()); ?>"><img src="http://i.cdn.turner.com/cnn/.e/img/3.0/global/header/hdr-main.gif" alt="CNN" /></a></li>
-							<li id="fox" ><a href="remix/create.php?url=http://www.foxnews.com<?php echo("&c=".$campaign->getItemId()); ?>"><img src="http://global.fncstatic.com/static/all/img/head/logo-foxnews-update.png" alt="Fox News" /></a></li>
-						</ul>
-					</div>
-					<div id="freeform">
-						<h2>Enter a site to Remix</h2>
-						<div id="general_remix">
-							<form action="remix/create.php" method="GET">
-								<?php if($campaign) { ?>
-									<input type="hidden" name="c" value="<?php echo($campaign->getItemId()); ?>" />
-								<?php }?>
-								<label for="url">URL:</label><input type="text/css" id="url" name="url" />
-								<input type="submit" value="Remix" />
-							</form>
-						</div>
-					</div>
-				</div>
+			<div class="section" id="introduction">
+				<p>This site makes it easy to change the messages you and your friends see online.  To try it out, choose an issue you care about from the list below.</p>
 			</div>
-			<div id="paper-wrapper">
-			</div>
-		</div>
+			<h2>Active Campaigns</h2>
+			<ul id="campaigns">
+				<?php
+					$campaigns = Campaign::getObjects(0,10);
+					foreach($campaigns as $campaign) {
+						?>
+						<li class="campaign">
+							<h3><a href="http://<?php echo($ROOT_URL.'campaign/gallery/'.$campaign->getItemID());?>"><?php echo($campaign->getTitle());?></a></h3>
+						</li>
+						<?php
+					}
+				?>
+			</ul>
+		<?php include("includes/partials/footer.php"); ?>
 	</body>
 </html>

@@ -3,14 +3,14 @@
 	global $BASE_DIRECTORY;
 	
 	if(!User::isAdministrator()) {
-		header("Location: login.php");
+		header("Location: ".$BASE_DIRECTORY."account/login");
 		exit();
 	}
 	
 	$remix = Remix::getObject($_GET['r']);
 	
 	if($remix == null || $remix->getItemId() == 0) {
-		header("Location: index.php");
+		header("Location: ".$BASE_DIRECTORY);
 		exit();
 	}
 	
@@ -30,7 +30,7 @@
 			$remix->delete();
 		}
 		
-		header("Location: ".$BASE_DIRECTORY."campaign/gallery.php?c=".$campaign_id);
+		header("Location: ".$BASE_DIRECTORY."campaign/gallery/".$campaign_id);
 		exit();
 	}
 ?>
