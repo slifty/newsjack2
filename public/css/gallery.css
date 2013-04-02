@@ -33,4 +33,4 @@ li.remix .image img {
 
 #remixes li { float: left; text-align: center; height: 200px; width: 150px; margin: 10px; }
 .image img { width: 100px; height: 100px; border: 1px solid #666; }
-.link { font-size: 12px;  }
+.link { font-size: 12px; margin-top: 5px; }
