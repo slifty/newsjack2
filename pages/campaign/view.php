@@ -67,7 +67,7 @@
 		exit();
 	}
 ?>
-
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Campaign</title>

@@ -1,6 +1,7 @@
 <?php
 	include_once("includes/common.php");
 ?>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>NewsJack</title>

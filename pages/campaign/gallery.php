@@ -12,6 +12,7 @@
 	}
 
 ?>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Campaign Gallery</title>

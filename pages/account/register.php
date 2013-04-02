@@ -9,7 +9,7 @@
 	}
 	
 ?>
-
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Register</title>

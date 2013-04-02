@@ -8,7 +8,7 @@
 	}
 	
 ?>
-
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Log In</title>
