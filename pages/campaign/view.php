@@ -64,7 +64,7 @@
 		if(isset($_POST['delete'])) {
 			$campaign->delete();
 		}
-		header("Location: <?php echo($BASE_DIRECTORY); ?>campaign/view/".$campaign->getItemId());
+		header("Location: ".$BASE_DIRECTORY."campaign/view/".$campaign->getItemId());
 		exit();
 	}
 ?>
