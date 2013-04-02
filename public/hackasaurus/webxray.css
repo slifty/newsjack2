@@ -4,7 +4,7 @@
  * reset any bizarre and unexpected CSS set by the host page, e.g.
  * div { border: blue; }. */
 
-.webxray-base {
+.webxray-base, .webxray-dialog-inner .webxray-base {
   background: none;
   width: auto;
   height: auto;
@@ -526,7 +526,7 @@ div.webxray-dialog-inner .preview_container { height: 100px; width: 100px; overf
 div.webxray-dialog-inner .gallery-description { float: left; height: 50px; width: 65%; margin-left: 5%; font-size: 14px; }
 div.webxray-dialog-inner .save_thumb { float: right; margin-right: 5%; cursor: pointer; color: #fff; background: #69AB34; padding: 5px; font-size: 16px; margin-bottom: 10px; }
 
-div.webxray-dialog-inner h2 { border-bottom: double 3px #333333; margin-bottom: 10px; clear: left; font-size: 1.5em;}
+div.webxray-dialog-inner h2.gallery-header { border-bottom: double 3px #333333; margin-bottom: 10px; clear: left; font-size: 1.5em;}
 
 div.webxray-dialog-inner .thumbnail { margin: 5px; }
 div.webxray-dialog-inner .sharelist { height: 100px; margin: 20px; margin-left: 5%; }

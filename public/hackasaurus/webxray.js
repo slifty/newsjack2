@@ -763,14 +763,17 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					var $dialog = jQuery.newModalDialog(input);
 
 					var $content = $("<div />")
+						.addClass("webxray-base")
 						.addClass("container")
 						.attr("id","uproot-dialog");
 
 					var $buttons = $("<div />")
+						.addClass("webxray-base")
 						.addClass("buttons")
 						.appendTo($content);
 
 					var $close = $("<div />")
+						.addClass("webxray-base")
 						.addClass("close-button")
 						.text(jQuery.locale.get("dialog-common:close"))
 						.click(function() {
@@ -779,53 +782,63 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 						.appendTo($buttons);
 
 					var $header = $("<div />")
+						.addClass("webxray-base")
 						.addClass("header")
 						.html("<h1>Share your Remix</h1>")
 						.appendTo($content);
 
 					var $sharelist = $("<div />")
+						.addClass("webxray-base")
 						.addClass("sharelist")
 						.appendTo($content);
 
 					var $share = $("<div />")
+						.addClass("webxray-base")
 						.addClass("share")
 						.addClass("web_share")
 						.html("<a href='" + remixInfo.pubURL +  "'' target='_blank'></a>")
 						.appendTo($sharelist);
 
 					var $to_facebook = $("<div />")
+						.addClass("webxray-base")
 						.addClass("share")
 						.addClass("fb_share")
 						.html("<a href='http://www.facebook.com/sharer.php?src=sp&u=" + encodeURI(remixInfo.pubURL) + "' target='_blank'></a>")
 						.appendTo($sharelist);
 					
 					var $to_twitter = $("<div />")
+						.addClass("webxray-base")
 						.addClass("share")
 						.addClass("twitter_share")
 						.html("<a href='https://twitter.com/intent/tweet?text=Breaking%20News!&url=" + encodeURI(remixInfo.pubURL) + "' target='_blank'></a>")
 						.appendTo($sharelist);
 
 					var $to_img = $("<div />")
+						.addClass("webxray-base")
 						.addClass("share")
 						.addClass("img_share")
 						.html("<a href='" + remixInfo.imgURL + "' target='_blank'></a>")
 						.appendTo($sharelist);
 
 					var $thumb = $("<div />")
+						.addClass("webxray-base")
 						.addClass("thumbnail")
 						.appendTo($content);
 
 					var $thumb_header = $("<h2 />")
+						.addClass("webxray-base")
 						.addClass("gallery-header")
 						.html("Submit to the Gallery")
 						.appendTo($thumb);
 
 					var $thumb_header = $("<p />")
+						.addClass("webxray-base")
 						.addClass("gallery-description")
 						.html("Select part of the screenshot below to feature your remix in our gallery.")
 						.appendTo($thumb);
 
 					var $save_thumb = $("<div />")
+						.addClass("webxray-base")
 						.addClass("save_thumb")
 						.html("Submit to Gallery")
 						.click(function() {
@@ -838,10 +851,12 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 						.appendTo($thumb);
 
 					var $full_container = $("<div />")
+						.addClass("webxray-base")
 						.addClass("full_container")
 						.appendTo($thumb);
 
 					var $full_image = $("<img />")
+						.addClass("webxray-base")
 						.attr("src", remixInfo.imgURL)
 						.addClass("full_image")
 						.appendTo($full_container);
