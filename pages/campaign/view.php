@@ -59,7 +59,6 @@
 			$suggestion->save();
 			array_push($suggestions, $suggestion);
 		}
-
 		
 		if(isset($_POST['delete'])) {
 			$campaign->delete();

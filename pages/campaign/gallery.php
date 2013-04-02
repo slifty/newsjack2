@@ -39,14 +39,15 @@
 				</ul>
 			</div>
 			<?php
-				$remixes = Remix::getObjectsByCampaignId($campaign->getItemId());
+				if(User::isAdministrator()) $remixes = Remix::getObjectsByCampaignId($campaign->getItemId());
+				else $remixes = Remix::getFeaturedObjectsByCampaignId($campaign->getItemId());
+				
 				if(sizeof($remixes) != 0) {
 					?>
 					<div class="section" id="remixes">
 						<h2>Gallery</h2>
 						<ul>
 							<?php
-								$remixes = Remix::getObjectsByCampaignId($campaign->getItemId());
 								foreach($remixes as $remix) {
 									?>
 									<li>

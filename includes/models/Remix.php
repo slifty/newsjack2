@@ -307,6 +307,17 @@ class Remix extends FactoryObject{
 		
 		return Remix::getObjects($query_string, $start, $quantity);
 	}
+
+	public static function getFeaturedObjectsByCampaignID($campaignID, $start=FactoryObject::LIMIT_BEGINNING, $quantity = FactoryObject::LIMIT_ALL) {
+		$query_string = "SELECT remixes.id as itemID 
+						   FROM remixes
+						  WHERE remixes.is_featured = 1
+						    AND (remixes.campaign_id = ".DBConn::clean($campaignID)." OR ".DBConn::clean($campaignID)."=".DBConn::clean(Remix::CAMPAIGN_ALL).")
+						    AND (remixes.remix_url != '')
+					   ORDER BY remixes.id desc";
+		
+		return Remix::getObjects($query_string, $start, $quantity);
+	}
 	
 	public static function getAllObjects() {
 		$query_string = "SELECT remixes.id as itemID 

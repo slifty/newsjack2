@@ -16,6 +16,7 @@ class Campaign extends FactoryObject{
 	# Caches
 	private $localeMods; // array
 	private $suggestions; // array
+
 	
 	public function __construct($itemID = FactoryObject::INIT_EMPTY) {
 		$dataArrays = static::gatherData((int)$itemID);
