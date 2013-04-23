@@ -19,9 +19,9 @@ li.remix .image img {
 #campaign { margin-bottom: 20px; }
 #campaign p { margin-left: 20px; }
 
-#suggestions { }
-#suggestions ul {margin-left: 20px; }
-#suggestions li { list-style: none; }
+#articles { }
+#articles ul {margin-left: 20px; }
+#articles li { list-style: none; }
 
 #remixes {}
 #remixes ul { margin-left: 20px; }

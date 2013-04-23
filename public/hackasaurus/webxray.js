@@ -711,7 +711,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 				var shortenURL = function() {
 					showMask("Shortening URL...");
 					$.ajax({
-						url: "../api/shorten.php",
+						url: "../../api/shorten.php",
 						type: "GET",
 						dataType: "json",
 						data: { url: remixInfo.pubURL },
@@ -726,7 +726,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 				var saveRemix = function() {
 					showMask("Saving Remix...");
 					$.ajax({
-						url: "../api/storage.php",
+						url: "../../api/storage.php",
 						type: "GET",
 						data: {
 							r: remixInfo.id,
@@ -741,7 +741,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 				var saveThumb = function() {
 					showMask("Saving Thumbnail...");
 					$.ajax({
-						url: "../api/savethumb.php",
+						url: "../../api/savethumb.php",
 						type: "POST",
 						dataType: "json",
 						data: {

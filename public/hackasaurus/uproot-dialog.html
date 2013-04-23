@@ -164,7 +164,7 @@ function setupUI(html, originalURL, hackpubURL, imgURL) {
 			var data = publishArgs[0];
 			var url = data['published-url'];
 			$.ajax({
-				url: "../api/shorten.php",
+				url: "../../api/shorten.php",
 				method: "GET",
 				dataType: "json",
 				data: { url: url },
@@ -179,7 +179,7 @@ function setupUI(html, originalURL, hackpubURL, imgURL) {
             $("#full_image").attr("src", "../" + imgURL)
 						$("#to-internet .finished").fadeIn();
 						$.ajax({
-							url: "../api/storage.php",
+							url: "../../api/storage.php",
 							method: "GET",
 							data: {
 								r: window.remix_id,

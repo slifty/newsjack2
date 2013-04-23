@@ -1,0 +1,5 @@
+.articles { width: 100%; min-width: 300px; }
+
+.articles th.title { width: 42%; min-width: 125px; }
+.articles th.url { width: 42%; min-width: 125px; }
+.articles th.tools { width: 16%; min-width: 50px; }

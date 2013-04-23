@@ -193,6 +193,25 @@
 			echo("Updating app version\n");
 			$mysqli->query("UPDATE appinfo set version ='13';") or print($mysqli->error);
 			
+		case '13':
+			echo("Deleting suggestions table\n");
+			$mysqli->query("drop TABLE suggestions") or print($mysqli->error);
+
+			echo("Creating articles table\n");
+			$mysqli->query("CREATE TABLE articles (id int auto_increment primary key,
+												campaign_id text,
+												title text,
+												url text,
+												date_created datetime)") or print($mysqli->error);
+
+			echo("Updating remixes table\n");
+			$mysqli->query("ALTER TABLE remixes
+							 DROP COLUMN campaign_id,
+				              ADD COLUMN article_id text AFTER id") or print($mysqli->error);
+			
+			echo("Updating app version\n");
+			$mysqli->query("UPDATE appinfo set version ='14';") or print($mysqli->error);
+			
 		default:
 			echo("Finished updating the schema\n");
 	}

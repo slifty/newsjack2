@@ -1,19 +1,23 @@
 <?php
 	include_once("includes/common.php");
 	global $CACHE_TIMEOUT, $BASE_DIRECTORY;
+	global $CLEAN_PARAMS;
+
+	// Load the relevant article
+	$article = Article::getObject(array_shift($CLEAN_PARAMS));
+	if($article == null || $article->getItemId() == 0) {
+		$url = urldecode(isset($_GET['url'])?$_GET['url']:"");
+		$url = substr($url,0,7) == "http://"?$url:"http://".$url;
+	} else {
+		$url = $article->getURL();
+	}
 	
 	// Clean the URL
-	$url = urldecode(isset($_GET['url'])?$_GET['url']:"");
-	echo($url);
-	$url = substr($url,0,7) == "http://"?$url:"http://".$url;
 	$url = Util::getFinalUrl($url);
-	
-	// Check if this is a campaign
-	$campaign =  Campaign::getObject(isset($_GET['c'])?$_GET['c']:"");
 	
 	// Store the original version
 	$remix = new Remix();
-	if($campaign != null) $remix->setCampaignID($campaign->getItemID());
+	if($article != null) $remix->setArticleID($article->getItemID());
 	$remix->setOriginalURL($url);
 	$remix->loadOriginalDOM($url, $CACHE_TIMEOUT);
 	$remix->save();

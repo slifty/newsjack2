@@ -1,0 +1,21 @@
+h2 { font-weight: normal; margin-bottom: 10px; font-size: 1.1em; }
+
+#example { width: 50%; height: 200px; border: 0px; margin-left: 175px; }
+#example-overlay { display: block; width: 50%; height: 200px; position: relative; margin-top: -204px; margin-left: 174px; background-color: rgba(255,255,255,.75); border: 1px solid #666; }
+#example-overlay-content { padding-top: 70px; }
+#example-overlay-content a.edit { display: block; padding: 25px; color: #FFF; background-color: rgba(115,190,30,1) ; text-align: center; }
+#example-overlay-content a.edit:hover { background-color: rgba(105,180,20,1); }
+
+#links { margin-left: 175px; margin-bottom: 40px; }
+#links li { font-size: 1.2em; font-weight: bold; list-style: none; margin-top: 10px; }
+
+.remixes li { float: left; text-align: center; height: 150px; width: 150px; margin: 10px; }
+.remixes li .image img { width: 100px; height: 100px; border: 1px solid #666; }
+.remixes li .link { font-size: 12px; margin-top: 5px; }
+
+@media only screen and (max-width: 899px) {
+	#example { width: 90%; height: 300px; margin-left: 5%; }
+	#example-overlay { width: 90%; height: 300px; position: relative; margin-top: -304px; margin-left: 5%; }
+	#example-overlay-content { padding-top: 120px; }
+	#links { margin-left: 5%; }
+}

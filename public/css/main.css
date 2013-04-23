@@ -15,7 +15,7 @@ body {
   background-size: 100%;
 }
 
-
+h1, h2 { text-align: center; }
 
 h2 {
   color: #000000;
@@ -92,17 +92,8 @@ form li textarea, form li input, form li select { margin-left: 20px; padding: 2p
   height: 68px;
 }
 
-#content-wrapper a { color: #73BE1E ; text-decoration: none;}
+a { color: #73BE1E ; text-decoration: none;}
 
-
-@media only screen and (min-width: 800px) and (max-width: 1080px) {
-}
-
-@media only screen and (min-width: 800px) and (max-width: 900px ) {
-}
-
-@media only screen and (min-width: 500px) and (max-width: 799px ) {
-}
 
 @media only screen and (max-width: 899px) {
   #tablet-wrapper {
@@ -110,7 +101,7 @@ form li textarea, form li input, form li select { margin-left: 20px; padding: 2p
     background: #FFF;
     border: 5px solid #000;
     width: 80%;
-    height: 300px;
+    height: auto;
     margin: auto;
     margin-bottom: 20px; 
     padding: 20px; 

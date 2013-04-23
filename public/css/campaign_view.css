@@ -9,9 +9,9 @@ form h2 { color: #73BE1E; }
 #title { width: 90%; }
 #description { width: 90%;  height: 100px; }
 
-.suggestion_title { margin-left: 0px; width: 90%; }
-.suggestion_url_prefix { margin-left: 20px; }
-.suggestion_url { margin-left: 0px; width: 200px;  }
+.article_title { margin-left: 0px; width: 90%; }
+.article_url_prefix { margin-left: 20px; }
+.article_url { margin-left: 0px; width: 200px;  }
 
 #sites { width: 90%; margin-left: 20px; text-align: center; }
 #sites .site_title{ width: 90%; margin-left: 20px; text-align: center; }

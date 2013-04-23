@@ -27,13 +27,13 @@
 				<p><?php echo($campaign->getDescription()); ?></p>
 			</div>
 			<h2>Participate</h2>
-			<div class="section" id="suggestions">
+			<div class="section" id="articles">
 				<ul>
 					<?php
-						$suggestions = $campaign->getSuggestions();
-						foreach($suggestions as $suggestion) {
+						$articles = $campaign->getArticles();
+						foreach($articles as $article) {
 							?>
-								<li><a href="<?php echo($BASE_DIRECTORY); ?>remix/create?c=<?php echo($campaign->getItemID()); ?>&url=<?php echo(urlencode("http://".$suggestion->getUrl())); ?>"><?php echo($suggestion->getTitle()); ?></a></li>
+								<li><a href="<?php echo($BASE_DIRECTORY); ?>remix/create?c=<?php echo($campaign->getItemID()); ?>&url=<?php echo(urlencode("http://".$article->getUrl())); ?>"><?php echo($article->getTitle()); ?></a></li>
 							<?php
 						}
 					?>

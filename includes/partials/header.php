@@ -5,3 +5,4 @@
 <div id="content-wrapper">
 	<div id="tablet-wrapper">
 		<div id="tablet-content">
+			<div id="main">
