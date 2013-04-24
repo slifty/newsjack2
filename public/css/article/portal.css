@@ -9,7 +9,7 @@ h2 { font-weight: normal; margin-bottom: 10px; font-size: 1.1em; }
 #links { margin-left: 175px; margin-bottom: 40px; }
 #links li { font-size: 1.2em; font-weight: bold; list-style: none; margin-top: 10px; }
 
-.remixes li { float: left; text-align: center; height: 150px; width: 150px; margin: 10px; }
+.remixes li { float: left; text-align: center; height: 150px; width: 150px; margin: 10px; list-style: none; }
 .remixes li .image img { width: 100px; height: 100px; border: 1px solid #666; }
 .remixes li .link { font-size: 12px; margin-top: 5px; }
 

@@ -190,41 +190,6 @@ span.webxray-more-info {
     background: rgba(0, 0, 0, 0.5);
 }
 
-/* Styles for nested elements of a dialog box, needed to vertically 
- * center it. */
-
-.webxray-dialog-outer {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    height: 100%;
-    bottom: 0px;
-}
-
-.webxray-dialog-middle {
-    position: absolute;
-    width: 100%;
-    height: 90%;
-    top: 5%;
-}
-
-div.webxray-dialog-inner {
-    width: 90%;
-    height: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    background: white;
-    text-align: left;
-}
-
-div.webxray-dialog-content, .webxray-dialog-inner iframe {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: inherit;
-}
-
 /* Transparent messages */
 
 .webxray-tmsg-overlay {
@@ -514,6 +479,12 @@ div.webxray-toolbar-button-glyph-tiny {
 .solid-line .jcrop-vline,.solid-line .jcrop-hline{background:#FFF;}
 .jcrop-holder img,img.jcrop-preview{max-width:none;}
 
+
+
+div.webxray-dialog-outer { position: absolute; top: 0px; left: 0px; right: 0px; height: 100%; bottom: 0px; }
+div.webxray-dialog-middle { position: absolute; width: 100%; height: 90%; top: 5%; }
+div.webxray-dialog-inner { width: 90%; height: 100%; margin-left: auto; margin-right: auto; background: white; text-align: left; }
+div.webxray-dialog-content { display: block; width: 100%; height: 100%; border: inherit; }
 
 div.webxray-dialog-overlay { z-index: 2147483644; }
 div.webxray-dialog-inner { border: 3px solid #69AB34; background-color: #E5F1DA; }

@@ -685,6 +685,8 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 						},
 						success: function(imgURL) {
 							remixInfo.imgURL = GLOBAL_BASE_PATH + imgURL;
+						},
+						complete: function() {
 							next();
 						}
 					});
@@ -703,8 +705,11 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 						dataType: 'json',
 						success: function(data) {
 							remixInfo.pubURL = data["published-url"];
+						},
+						complete: function() {
 							next();
 						}
+
 					});
 				}
 
@@ -753,6 +758,8 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 						},
 						success: function(data, textStatus, jqXHR) {
 							alert("Submitted!");
+						},
+						complete: function() {
 							$(".thumbnail").hide();
 							hideMask();
 						}
@@ -861,26 +868,9 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 						.addClass("full_image")
 						.appendTo($full_container);
 
-					// var $preview_container = $("<div />")
-					// 	.addClass("preview_container")
-					// 	.appendTo($thumb);
-
-					// var $preview_image = $("<img />")
-					// 	.attr("src", remixInfo.imgURL)
-					// 	.addClass("preview_image")
-					// 	.appendTo($preview_container);
-
 					function showPreview(coords) {
 						var rx = 100 / coords.w;
 						var ry = 100 / coords.h;
-
-						// $preview_image.css({
-						// 	width: Math.round(rx * $full_image.width()) + 'px',
-						// 	height: Math.round(ry * $full_image.height()) + 'px',
-						// 	marginLeft: '-' + Math.round(rx * coords.x) + 'px',
-						// 	marginTop: '-' + Math.round(ry * coords.y) + 'px'
-						// });
-
 						remixInfo.thumb_x = coords.x;
 						remixInfo.thumb_y = coords.y;
 						remixInfo.thumb_h = coords.h;
@@ -1748,7 +1738,31 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 })(jQuery);
 
 
-(function(jQuery) {
+(function($) {
+	// Set up Remixing
+	$(function() {
+
+		// Inline Text Remixing
+		$("#newsjack_content").find("*").addBack()
+			.contents()
+			.filter(function() { return this.nodeType == 3 && $(this).text().trim()!=''; })
+			.wrap('<span />')
+			.parent()
+			.addClass("newsjack-inline-text")
+			.addClass("newsjack-remixable");
+
+		// Image Replacement Remixing
+		$("#newsjack_content").find("img")
+			.addClass("newsjack-image")
+			.addClass("newsjack-remixable");
+
+		// Disable links
+		$("#newsjack_content").find("a")
+			.click(function() { return false; });
+
+	});
+
+
 	function NullTransitionEffectManager() {
 		return {
 			enableDuring: function enableDuring(fn) { fn(); }
@@ -1833,13 +1847,6 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					$(hud.overlay).html(msg);
 				}
 			},
-			htmlToJQuery: function htmlToJQuery(html) {
-				if (html == '' || typeof(html) != 'string')
-					return $('<span></span>');
-				if (html[0] != '<')
-					html = '<span>' + html + '</span>';
-				return $(html);
-			},
 			deleteFocusedElement: function deleteFocusedElement() {
 				var elementToDelete = focused.getPrimaryElement();
 				if (elementToDelete) {
@@ -1862,17 +1869,8 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					});
 				}
 			},
-			infoForFocusedElement: function infoForFocusedElement(open) {
-				var element = focused.getPrimaryElement();
-				open = open || window.open;
-				if (element) {
-					var url = 'https://developer.mozilla.org/en/HTML/Element/' +
-					element.nodeName.toLowerCase();
-					open(url, 'info');
-				}
-			},
-			replaceElement: function(elementToReplace, html) {
-				var newContent = self.htmlToJQuery(html);
+
+			replaceElement: function(elementToReplace, newContent) {
 				runCommand("ReplaceWithCmd", {
 					name: l10n('replacement'),
 					elementToReplace: elementToReplace,
@@ -1880,102 +1878,97 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 				});
 				return newContent;
 			},
-			setDialogPageMods: function(mods) {
-				dialogPageMods = mods;
-			},
-			replaceFocusedElementWithDialog: function(options) {
+
+			remixFocusedElement: function(options) {
 				var input = options.input;
-				var dialogURL = options.dialogURL;
-				var sendFullDocument = options.sendFullDocument;
-				var MAX_HTML_LENGTH = 5000;
-				var focusedElement =  focused.getPrimaryElement();
-
-				if (!focusedElement)
+				var focusedElement = focused.getPrimaryElement();
+				if(!focusedElement)
 					return;
 
-				// Remove pointer hack so it doesn't appear in editor
-				focusedElement.style.cursor = null;
-				if($(focusedElement).attr("style") == "")
-					$(focusedElement).removeAttr("style");
+				var $focusedElement = $(focused.getPrimaryElement());
+				focused.unfocus();
+				input.deactivate();
 
-				// We need to remove any script tags in the element now, or else
-				// we'll likely re-execute them.
-				$(focusedElement).find("script").remove();
-				
-				var focusedHTML = $(focusedElement).outerHtml();
-				if ($(focusedElement).is('html, body')) {
-					var msg = l10n("too-big-to-change");
-					jQuery.transparentMessage($('<div></div>').text(msg));
-					return;
-				}
+				// INLINE TEXT
+				if($focusedElement.hasClass("newsjack-inline-text")) {
+					$original = $(focusedElement);
+					$replacement = $("<textarea/>")
+						.text($original.text().trim())
+						.height($original.height())
+						.width($original.width())
+			 		$original.replaceWith($replacement);
 
-				if (focusedHTML.length == 0 || focusedHTML.length > MAX_HTML_LENGTH) {
-					var tagName = focusedElement.nodeName.toLowerCase();
-					var msg = l10n("too-big-to-remix-html").replace("${tagName}",
-						tagName);
-					jQuery.transparentMessage($(msg));
-					return;
-				}
+			 		$replacement.focus();
+			 		$replacement.bind("endEdit", function(e) {
+			 			$replacement.replaceWith($original);
+			 			$clone = $original.clone()
+			 				.text(" " + $replacement.val() + " ");
+			 			self.replaceElement($original, $clone);
+			 			options.input.activate();
+			 		});
 
-				if (sendFullDocument) {
-					$(document).uprootIgnoringWebxray(function (html) {
-						begin({
-							html: html,
-							selector: $(document.body).pathTo(focused.getPrimaryElement())
+			 		$replacement.bind("blur", function(e) { $(this).trigger("endEdit"); });
+			 		$replacement.bind("keydown", function(e) { if(e.keyCode == 13) $(this).trigger("endEdit"); });
+			 	}
+
+			 	// IMAGE REPLACEMENT
+			 	if($focusedElement.hasClass("newsjack-image")) {
+			 		$original = $(focusedElement);
+					var $dialog = jQuery.newModalDialog(input);
+
+					var $content = $("<div />")
+						.addClass("webxray-base")
+						.addClass("container")
+						.attr("id","image-dialog");
+
+					var $image_remixer = $("<div />")
+						.addClass("webxray-base")
+						.addClass("image_remixer")
+						.appendTo($content);
+
+					var $save_image = $("<div />")
+						.addClass("webxray-base")
+						.addClass("save_changes")
+						.html("Save Changes")
+						.click(function() {
+							$clone = $original.clone();
+							$clone.attr("src", $image_url.val())
+							$clone.height($full_image.height())
+							$clone.width($full_image.width())
+
+				 			self.replaceElement($original, $clone);
+				 			options.input.activate();
+							$dialog.close();
+						})
+						.appendTo($image_remixer);
+
+					var $full_container = $("<div />")
+						.addClass("webxray-base")
+						.addClass("full_container")
+						.appendTo($image_remixer);
+
+					var $full_image = $("<img />")
+						.addClass("webxray-base")
+						.attr("src", $original.attr("src"))
+						.css("max-height", $original.height())
+						.css("max-width", $original.width())
+						.addClass("full_image")
+						.appendTo($full_container);
+
+					var $image_url = $("<input />")
+						.addClass("webxray-base")
+						.addClass("image_url")
+						.attr("type", "text")
+						.val($original.attr("src"))
+						.appendTo($image_remixer)
+						.change(function() {
+							var $this = $(this);
+							if (!/^http:\/\//.test($this.val())) { $this.val("http://" + this.val()); }
+							$full_image.attr("src", $(this).val());
 						});
-					});
-				} else {
-					begin(focusedHTML);
-				}
-				function begin(startHTML) {
-					focused.unfocus();
-					$(focusedElement).addClass('webxray-hidden');
 
-
-					/* TODO -- change dialog format */
-					jQuery.morphElementIntoDialog({
-						input: input,
-						body: options.body,
-						url: dialogURL,
-						element: focusedElement,
-						onLoad: function(dialog) {
-							dialog.iframe.postMessage(JSON.stringify({
-								languages: jQuery.locale.languages,
-								startHTML: startHTML,
-								mods: dialogPageMods,
-								baseURI: document.location.href,
-								campaignId: window.campaignId
-							}), "*");
-							dialog.iframe.fadeIn();
-							dialog.iframe.bind("message", function onMessage(event, data) {
-								if (data && data.length && data[0] == '{') {
-									var data = JSON.parse(data);
-									if (data.msg == "ok") {
-										// The dialog may have decided to replace all our spaces
-										// with non-breaking ones, so we'll undo that.
-										var html = data.endHTML.replace(/\u00a0/g, " ");
-										var newContent = self.replaceElement(focusedElement, html);
-										
-										newContent.addClass('webxray-hidden');
-										$(focusedElement).removeClass('webxray-hidden');
-										jQuery.morphDialogIntoElement({
-											dialog: dialog,
-											input: input,
-											element: newContent,
-											onDone: function() {
-												newContent.reallyRemoveClass('webxray-hidden');
-											}
-										});
-									} else {
-										// TODO: Re-focus previously focused elements?
-										$(focusedElement).reallyRemoveClass('webxray-hidden');
-										dialog.close();
-									}
-								}
-							});
-						}
-					});
-				}
+					$dialog.populate($content);
+			 	}
 			}
 		};
 		return self;
@@ -2242,69 +2235,9 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 })(jQuery);
 
 
+/* Modal Dialog Wizard */
 (function(jQuery) {
-	jQuery.fn.extend({
-		postMessage: function(message, targetOrigin) {
-			if ((jQuery.browser.mozilla && typeof(self) == "object" && self.port && self.port.emit)
-			 || (typeof(chrome) == "object" && chrome.extension)) {
-				// We're most likely in a Jetpack, and need to work around
-				// bug 666547. Or, we're in a Chrome extension and are
-				// stymied by http://stackoverflow.com/q/4062879.
-
-				if (!this.attr("id"))
-					// Likelyhood of a naming collision here is very low,
-					// and it's only a temporary workaround anyways.
-					this.attr("id", "webxray-iframe-" + Math.random());
-
-				var script = document.createElement("script");
-
-				script.text = "(" + (function(id, message) {
-					var iframe = document.getElementById(id);
-					iframe.contentWindow.postMessage(message, "*");
-				}).toString() + ")(" + JSON.stringify(this.attr("id")) + ", " + JSON.stringify(message) + ");";
-
-				document.body.appendChild(script);
-				document.body.removeChild(script);
-			} else
-				this[0].contentWindow.postMessage(message, targetOrigin);
-		}
-	});
 	jQuery.extend({
-		getModalDialogDimensions: function() {
-			var div = $('<div class="webxray-base webxray-dialog-overlay">' +
-				'<div class="webxray-base webxray-dialog-outer">' +
-				'<div class="webxray-base webxray-dialog-middle">' +
-				'<div class="webxray-base webxray-dialog-inner">' +
-				'<div class="webxray-base webxray-dialog-content">' +
-				'</div></div></div></div></div>');
-			$(document.body).append(div);
-
-			var content = div.find('.webxray-dialog-content');
-			var pos = content.offset();
-			var dimensions = {
-				top: pos.top,
-				left: pos.left,
-				width: content.outerWidth(),
-				height: content.outerHeight()
-			};
-			div.remove();
-			return dimensions;
-		},
-		simpleModalDialog: function(options) {
-			var dialog = jQuery.modalDialog({
-				input: options.input,
-				url: options.url
-			});
-			dialog.iframe.one("load", function() {
-				$(this).postMessage(options.payload, "*");
-				$(this).show().bind("message", function(event, data) {
-					if (data == "close")
-						dialog.close();
-				});
-			});
-			return dialog;
-		},
-
 		newModalDialog: function(input) {
 			input.deactivate();
 			$(".webxray-overlay").hide();
@@ -2356,111 +2289,6 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 
 			input.deactivate();
 			return dialog;
-		},
-
-		modalDialog: function(options) {
-			var input = options.input;
-			var body = options.body || document.body;
-			var url = options.url;
-			var div = $('<div class="webxray-base webxray-dialog-overlay">' +
-				'<div class="webxray-base webxray-dialog-outer">' +
-				'<div class="webxray-base webxray-dialog-middle">' +
-				'<div class="webxray-base webxray-dialog-inner">' +
-				'<iframe class="webxray-base" src="' + url + '"></iframe>' +
-				'</div></div></div></div>');
-			var iframe = div.find("iframe");
-
-			function onMessage(event) {
-				if (event.source == self.iframe.get(0).contentWindow) {
-					iframe.trigger("message", [event.data]);
-				}
-			}
-
-			window.addEventListener("message", onMessage, false);
-			iframe.hide();
-
-			var self = {
-				iframe: iframe,
-				close: function close(cb) {
-					div.fadeOut(function() {
-						window.removeEventListener("message", onMessage, false);
-						div.remove();
-						div = null;
-
-						// Firefox seems to trigger a mouseout/mouseover event
-						// when we remove the dialog div, so we'll wait a moment
-						// before re-activating input so that we don't distract
-						// the user by focusing on whatever their mouse happens
-						// to be over when the dialog closes.
-						setTimeout(function() {
-							input.activate();
-							input = null;
-							window.focus();
-							if (cb)
-								cb();
-						}, 50);
-					});
-				}
-			};
-
-			input.deactivate();
-			$(body).append(div);
-			return self;
-		},
-		morphElementIntoDialog: function(options) {
-			var input = options.input;
-			var element = options.element;
-			var body = options.body || document.body;
-			var url = options.url;
-			var overlay = $(element).overlayWithTagColor(1.0);
-			var backdrop = $('<div class="webxray-base webxray-dialog-overlay">' +
-				'</div>');
-
-			// Closing the dialog we make later will re-activate this for us.
-			input.deactivate();
-
-			$(body).append(backdrop);
-			overlay.addClass('webxray-topmost');
-			overlay.animate(jQuery.getModalDialogDimensions(), function() {
-				var dialog = jQuery.modalDialog({
-					input: input,
-					body: body,
-					url: url
-				});
-
-				backdrop.remove();
-				
-				dialog.iframe.one("load", function onLoad() {
-					overlay.fadeOut(function() {
-						overlay.remove();
-						options.onLoad(dialog);
-					});
-				});        
-			});
-		},
-		morphDialogIntoElement: function(options) {
-			var element = options.element;
-			var dialog = options.dialog;
-			var input = options.input;
-			var overlay = dialog.iframe.overlay();
-
-			overlay.applyTagColor(element, 1.0);
-			overlay.hide();
-			overlay.fadeIn(function() {
-				dialog.close(function() {
-					// input was just re-activated when the dialog closed, but
-					// we want to deactivate it again because we're not actually
-					// done with our transition.
-					input.deactivate();
-					overlay.resizeTo(element, function() {
-						$(this).fadeOut(function() {
-							$(this).remove();
-							input.activate();
-						});
-						options.onDone();
-					});
-				});
-			});
 		}
 	});
 })(jQuery);
@@ -2482,10 +2310,8 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 		keys[alphabet[i]] = alphabet.charCodeAt(i);
 	
 	function isValidFocusTarget(target) {
-		var focusedHTML = $(target).html();
-		if(focusedHTML.length > 5000) return false; // Too big
-
-		return (!$(target).hasClass('webxray-base'));
+		var $target = $(target);
+		return ($target.hasClass('newsjack-remixable') && !$target.hasClass('webxray-base') && !$target.parents('.webxray-base').length > 0);
 	}
 
 	// This function attempts to compensate for a browser's lack of support
@@ -2504,7 +2330,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 	// Annoying that we have to do browser detection here, but unfortunately
 	// we can't simply test for support of the 'pointer-events' CSS feature,
 	// as Opera and IE9 support it but only for SVG.
-	if (jQuery.browser.opera || jQuery.browser.msie)
+	if ($.browser.opera || $.browser.msie)
 		return function(event) {
 			if (topmostNoPointerEvents(event.relatedTarget))
 				return null;
@@ -2799,11 +2625,10 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					cmd: 'remix',
 					neverInToolbar: true,
 					execute: function() {
-						mixMaster.replaceFocusedElementWithDialog({
-							input: self,
-							dialogURL: jQuery.webxraySettings.url("easyRemixDialogURL"),
-							sendFullDocument: true
+						mixMaster.remixFocusedElement({
+							input: self
 						});
+						return;
 					},
 				},
 				// {
@@ -2828,30 +2653,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					cmd: 'redo',
 					alwaysInToolbar: true,
 					execute: function() { mixMaster.redo(); }
-				},
-				// {
-				// 	key: 'B',
-				// 	cmd: 'bug-report',
-				// 	alwaysInToolbar: true,
-				// 	execute: function() {
-				// 		jQuery.openBugReportDialog(self);
-				// 	}
-				// },
-				// {
-				// 	key: 'P',
-				// 	cmd: 'uproot',
-				// 	neverInToolbar: true,
-				// 	execute: function() {
-				// 		persistence.saveHistoryToDOM();
-				// 		jQuery.openUprootDialog(self);
-				// 	}
-				// },
-				// {
-				// 	key: 'I',
-				// 	execute: function() {
-				// 		mixMaster.infoForFocusedElement();
-				// 	}
-				// }
+				}
 			]);
 
 			self.add(self.simpleKeyBindings.handlers);
@@ -3222,4 +3024,5 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 			});
 		});
 	});
+
 })(jQuery);

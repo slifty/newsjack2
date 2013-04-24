@@ -8,7 +8,7 @@
 
 .articles>li { list-style: none; }
 
-.remixes>li { float: left; text-align: center; width: 150px; margin-right: 10px; margin-top: 50px; }
+.remixes>li { float: left; text-align: center; margin-top: 50px; margin-left: 20px; list-style: none; }
 .remixes>li .image img { width: 100px; height: 100px; border: 1px solid #666; }
 .remixes>li .link { font-size: 12px; margin-top: 5px; }
 
