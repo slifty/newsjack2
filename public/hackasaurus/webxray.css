@@ -178,18 +178,6 @@ span.webxray-more-info {
     display: none;
 }
 
-/* The backdrop surrounding a dialog box. */
-
-.webxray-dialog-overlay {
-    z-index: 2147483646;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
-    background: rgba(0, 0, 0, 0.5);
-}
-
 /* Transparent messages */
 
 .webxray-tmsg-overlay {
@@ -481,12 +469,14 @@ div.webxray-toolbar-button-glyph-tiny {
 
 
 
+div.webxray-dialog-overlay { z-index: 2147483646; position: fixed; top: 0px; left: 0px; bottom: 0px; right: 0px; background: rgba(0, 0, 0, 0.5); }
 div.webxray-dialog-outer { position: absolute; top: 0px; left: 0px; right: 0px; height: 100%; bottom: 0px; }
-div.webxray-dialog-middle { position: absolute; width: 100%; height: 90%; top: 5%; }
-div.webxray-dialog-inner { width: 90%; height: 100%; margin-left: auto; margin-right: auto; background: white; text-align: left; }
-div.webxray-dialog-content { display: block; width: 100%; height: 100%; border: inherit; }
+div.webxray-dialog-middle { position: absolute; width: 100%; height: 90%; top: 5%; text-align: center; }
+.dialog-mid div.webxray-dialog-middle { position: absolute; width: 100%; height: 60%; top: 20%; text-align: center; }
+.dialog-small div.webxray-dialog-middle { position: absolute; width: 100%; height: 40%; top: 30%; text-align: center; }
+div.webxray-dialog-inner { display: inline-block; background: white; text-align: left; }
+div.webxray-dialog-content { width: 100%; height: 100%; border: inherit; }
 
-div.webxray-dialog-overlay { z-index: 2147483644; }
 div.webxray-dialog-inner { border: 3px solid #69AB34; background-color: #E5F1DA; }
 div.webxray-dialog-inner .header { font-size: 32px; border-bottom: double 3px #333333; margin: 5px; }
 div.webxray-dialog-inner .container { background: #fff; border: 1px solid #69AB34; height: 100%; overflow: auto; }
@@ -509,3 +499,7 @@ div.webxray-dialog-inner .twitter_share { background: url('../img/share/twitter.
 div.webxray-dialog-inner .img_share { background: url('../img/share/image.png'); background-size: 100%; }
 
 div.webxray-dialog-inner h1 { font-family: 'impact'; font-weight: normal; font-size: 48px; margin-top: 0px; margin-bottom: 0px; }
+
+.image-remix-container .save-changes { cursor: pointer; color: #fff; background: #69AB34; padding: 5px; width: 100px; margin: 20px auto; font-size: 16px; }
+.image-remix-container .full-container { border: 2px dashed #666; clear: both; margin: 20px; }
+.image-remix-container .image-url { border: 1px solid #666; padding: 2px; margin-left: 10%; width: 80%; }

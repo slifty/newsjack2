@@ -1919,16 +1919,45 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					var $content = $("<div />")
 						.addClass("webxray-base")
 						.addClass("container")
+						.addClass("image-remix-container")
 						.attr("id","image-dialog");
 
 					var $image_remixer = $("<div />")
 						.addClass("webxray-base")
-						.addClass("image_remixer")
+						.addClass("image-remixer")
 						.appendTo($content);
+
+					var $full_container = $("<div />")
+						.addClass("webxray-base")
+						.addClass("full-container")
+						.height($original.height())
+						.width($original.width())
+						.appendTo($image_remixer);
+
+					var $full_image = $("<img />")
+						.addClass("webxray-base")
+						.addClass("full-image")
+						.attr("src", $original.attr("src"))
+						.css("max-height", $original.height())
+						.css("max-width", $original.width())
+						.appendTo($full_container);
+
+					var $image_url = $("<input />")
+						.addClass("webxray-base")
+						.addClass("image-url")
+						.attr("type", "text")
+						.val($original.attr("src"))
+						.appendTo($image_remixer)
+						.keyup(function() {
+							var $this = $(this);
+							if (!/^http:\/\//.test($this.val())) { $this.val("http://" + $this.val()); }
+							if (/^http:\/\/http:\/\//.test($this.val())) { $this.val($this.val().substring(7)); }
+							$full_image.attr("src", $(this).val());
+						});
 
 					var $save_image = $("<div />")
 						.addClass("webxray-base")
-						.addClass("save_changes")
+						.addClass("save-changes")
 						.html("Save Changes")
 						.click(function() {
 							$clone = $original.clone();
@@ -1941,31 +1970,6 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 							$dialog.close();
 						})
 						.appendTo($image_remixer);
-
-					var $full_container = $("<div />")
-						.addClass("webxray-base")
-						.addClass("full_container")
-						.appendTo($image_remixer);
-
-					var $full_image = $("<img />")
-						.addClass("webxray-base")
-						.attr("src", $original.attr("src"))
-						.css("max-height", $original.height())
-						.css("max-width", $original.width())
-						.addClass("full_image")
-						.appendTo($full_container);
-
-					var $image_url = $("<input />")
-						.addClass("webxray-base")
-						.addClass("image_url")
-						.attr("type", "text")
-						.val($original.attr("src"))
-						.appendTo($image_remixer)
-						.change(function() {
-							var $this = $(this);
-							if (!/^http:\/\//.test($this.val())) { $this.val("http://" + this.val()); }
-							$full_image.attr("src", $(this).val());
-						});
 
 					$dialog.populate($content);
 			 	}
