@@ -1753,11 +1753,39 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 
 		// Image Replacement Remixing
 		$("#newsjack_content").find("img")
-			.addClass("newsjack-image")
-			.addClass("newsjack-remixable");
+			.each(function(index, el) {
+				var $el = $(el)
+					.addClass("newsjack-image");
+
+				var $container = $("<div />")
+					.addClass("newsjack-image-container")
+					.css("overflow","hidden")
+					.css("position","relative")
+					.height($el.height())
+					.width($el.width());
+
+				$el.replaceWith($container)
+					.css("display","block")
+					.css("position","absolute")
+					.css("top", "0px")
+					.css("left", "0px")
+					.appendTo($container);
+
+				var $clickable = $("<div />")
+					.addClass("newsjack-remixable")
+					.addClass("newsjack-image-proxy")
+					.height($el.height())
+					.width($el.width())
+					.css("position","absolute")
+					.css("top", "0px")
+					.css("z-index",1)
+					.css("background","transparent")
+					.appendTo($container);
+			})
 
 		// Disable links
 		$("#newsjack_content").find("a")
+			.attr("href","replace_me_with_a_real_url_please.com")
 			.click(function() { return false; });
 
 	});
@@ -1896,6 +1924,9 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 						.text($original.text().trim())
 						.height($original.height())
 						.width($original.width())
+						.css("font-family", $original.css("font-family"))
+						.css("font-size", $original.css("font-size"))
+						.css("font-weight", $original.css("font-weight"))
 			 		$original.replaceWith($replacement);
 
 			 		$replacement.focus();
@@ -1912,8 +1943,16 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 			 	}
 
 			 	// IMAGE REPLACEMENT
-			 	if($focusedElement.hasClass("newsjack-image")) {
-			 		$original = $(focusedElement);
+			 	if($focusedElement.hasClass("newsjack-image-proxy")) {
+			 		$original = $(focusedElement).parent().find(".newsjack-image");
+
+					var coreImage = new Image();
+					coreImage.src = $original.attr("src");
+
+
+			 		var top = 0;
+			 		var left = 0;
+
 					var $dialog = jQuery.newModalDialog(input);
 
 					var $content = $("<div />")
@@ -1930,17 +1969,34 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					var $full_container = $("<div />")
 						.addClass("webxray-base")
 						.addClass("full-container")
-						.height($original.height())
-						.width($original.width())
+						.height($original.parent().height())
+						.width($original.parent().width())
 						.appendTo($image_remixer);
 
 					var $full_image = $("<img />")
 						.addClass("webxray-base")
 						.addClass("full-image")
 						.attr("src", $original.attr("src"))
-						.css("max-height", $original.height())
-						.css("max-width", $original.width())
-						.appendTo($full_container);
+						.appendTo($full_container)
+						.draggable({
+							stop: function(event, ui) {
+								top = ui.position.top;
+								left = ui.position.left;
+							}
+						});
+
+					var $zoom_slider = $("<div />")
+						.addClass("zoom-slider")
+						.slider({
+							range: "min",
+							min: 10,
+							max: 150,
+							value: 100,
+							slide: function( event, ui ) {
+								$full_image.height( ui.value / 100 * coreImage.height);
+							}
+						})
+						.appendTo($image_remixer);
 
 					var $image_url = $("<input />")
 						.addClass("webxray-base")
@@ -1953,6 +2009,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 							if (!/^http:\/\//.test($this.val())) { $this.val("http://" + $this.val()); }
 							if (/^http:\/\/http:\/\//.test($this.val())) { $this.val($this.val().substring(7)); }
 							$full_image.attr("src", $(this).val());
+							coreImage.src = $(this).val();
 						});
 
 					var $save_image = $("<div />")
@@ -1964,6 +2021,8 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 							$clone.attr("src", $image_url.val())
 							$clone.height($full_image.height())
 							$clone.width($full_image.width())
+							$clone.css("top",top);
+							$clone.css("left",left);
 
 				 			self.replaceElement($original, $clone);
 				 			options.input.activate();

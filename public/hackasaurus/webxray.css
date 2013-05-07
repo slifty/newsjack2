@@ -501,5 +501,6 @@ div.webxray-dialog-inner .img_share { background: url('../img/share/image.png');
 div.webxray-dialog-inner h1 { font-family: 'impact'; font-weight: normal; font-size: 48px; margin-top: 0px; margin-bottom: 0px; }
 
 .image-remix-container .save-changes { cursor: pointer; color: #fff; background: #69AB34; padding: 5px; width: 100px; margin: 20px auto; font-size: 16px; }
-.image-remix-container .full-container { border: 2px dashed #666; clear: both; margin: 20px; }
+.image-remix-container .full-container { border: 2px dashed #666; clear: both; margin: 20px; overflow: hidden; }
 .image-remix-container .image-url { border: 1px solid #666; padding: 2px; margin-left: 10%; width: 80%; }
+.zoom-slider { margin: 20px; }
