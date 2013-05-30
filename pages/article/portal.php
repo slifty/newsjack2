@@ -15,36 +15,45 @@
 	<head>
 		<title>Article Portal</title>
 		<?php include("includes/partials/head.php"); ?>
+		<script type="text/javascript" src="<?php echo($BASE_DIRECTORY); ?>js/jquery.jcarousel.min.js"></script>
+		<link rel="stylesheet" href="<?php echo($BASE_DIRECTORY); ?>css/carousel.css">
 		<link rel="stylesheet" href="<?php echo($BASE_DIRECTORY); ?>css/article/portal.css">
 	</head>
 	<body>
+
 		<?php include("includes/partials/header.php"); ?>
-			<ul id="breadcrumb">
-				<li><a href="<?php echo($BASE_DIRECTORY); ?>">Back Home</a></li>
-			</ul>
-			<h1>Article</h1>
-			<h2><a href="<?php echo($article->getURL()); ?>"><?php echo($article->getTitle()); ?></a></h2>
+
+			<div id="navigation">
+				<ul>
+					<li><a href="<?php echo($BASE_DIRECTORY); ?>remix/create/<?php echo($article->getItemID()); ?>">Edit</a></li>
+					<li><a href="<?php echo($BASE_DIRECTORY); ?>">Home</a></li>
+					<li>Deel</li>
+				</ul>
+			</div>
 			<div id="example-container">
 				<iframe id="example" src="<?php echo($article->getURL()); ?>"></iframe>
 				<div id="example-overlay">
 					<div id="example-overlay-content">
-						<a href="<?php echo($BASE_DIRECTORY); ?>remix/create/<?php echo($article->getItemID()); ?>" class="edit">Click to Remix</a>
+						<a href="<?php echo($BASE_DIRECTORY); ?>remix/create/<?php echo($article->getItemID()); ?>" class="edit">Voor</a>
+					</div>
+				</div>
+			</div>
+			<div id="example-container">
+				<iframe id="example" src="<?php echo($article->getURL()); ?>"></iframe>
+				<div id="example-overlay">
+					<div id="example-overlay-content">
+						<a href="<?php echo($BASE_DIRECTORY); ?>remix/create/<?php echo($article->getItemID()); ?>" class="edit">Na</a>
 					</div>
 				</div>
 			</div>
 
-			<div id="links">
-				<ul>
-					<li><a href="<?php echo($BASE_DIRECTORY); ?>site/help">How does it work?</a></li>
-					<li><a href="<?php echo($BASE_DIRECTORY); ?>site/gallery">Other Articles</a></li>
-				</ul>
-			</div>
+			<h1 id="how-it-works">How does it work?</h1>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed turpis mauris, quis posuere purus. In lectus nibh, venenatis eget varius nec, blandit et eros. Vestibulum porta, nisi in sodales imperdiet, mauris est aliquam neque, sed aliquam quam tortor sit amet lorem. Cras nibh quam, ornare quis imperdiet eu, varius a lectus. Integer ultricies justo sed urna bibendum pulvinar. Curabitur sed accumsan ligula. Donec auctor, nisi ut fermentum porta, nibh nisi ornare felis, eu pretium libero orci ultrices ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam fringilla urna sit amet odio tempus aliquet. Nunc ac ultricies libero. Curabitur sit amet metus augue. Phasellus rhoncus, massa id pretium ullamcorper, eros dolor vestibulum justo, at pharetra arcu ligula non mauris. Curabitur sit amet est lorem. Suspendisse purus sem, iaculis ac bibendum consequat, tempor nec nisi.</p>
 			
-			<h1>Remix Gallery</h1>
+			<h1 id="more">More</h1>
 			<?php
 				if(User::isAdministrator()) $remixes = $article->getRemixes();
 				else $remixes = $article->getFeaturedRemixes();
-				
 				if(sizeof($remixes) != 0) {
 					?>
 					<ul class="remixes">
@@ -79,6 +88,30 @@
 							}
 						?>
 					</ul>
+
+					<script type="text/javascript">
+						$(function(){
+							$(".remixes").jcarousel();
+						})
+					</script>
+
+					<script type="text/javascript">
+						$(function(){
+							$(".remixes li a").click(function(e) {
+								var $this = $(this);
+								var $modal = $("<div><iframe src='" + $this.attr('href') + "' style='height:90%; width: 100%;'></iframe><div style='height:10%;'>((SHARE BUTTONS HERE))</div>")
+								.dialog({
+									modal: true,
+									height: 700,
+									width: '90%',
+									resizable: false,
+									draggable: false,
+
+								});
+								return false;
+							});
+						})
+					</script>
 					<?php
 				}
 			?>

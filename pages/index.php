@@ -10,6 +10,13 @@
 	</head>
 	<body>
 		<?php include("includes/partials/header.php"); ?>
+			(VIDEO GOES HERE)
+			<div id="navigation">
+				<ul>
+					<li>How it Works</li>
+					<li><a href="<?php echo($BASE_DIRECTORY); ?>site/gallery">Gallery</a></li>
+				</ul>
+			</div>
 		<?php include("includes/partials/footer.php"); ?>
 	</body>
 </html>

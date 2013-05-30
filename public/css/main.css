@@ -26,13 +26,30 @@ h2 {
 
 p {
 	margin-bottom: 5px;
+  font-size: .9em;
+  line-height: 20px;
 }
+
+#navigation {
+  position: absolute;
+  right: -180px;
+  width: 200px;
+}
+
+#navigation li {
+  background: #eee;
+  color: #000;
+  list-style: none;
+  margin: 10px;
+}
+
 
 #content-wrapper {
   padding-top: 100px;
 }
 
 #tablet-wrapper {
+  position: relative;
   background-image: url('../img/tablet.png');
   background-size: 100%;
   width: 700px;
