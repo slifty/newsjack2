@@ -11,8 +11,6 @@ html, body {
 }
 
 body {
-  background: url('../img/wood.jpg');
-  background-size: 100%;
 }
 
 h1, h2 { text-align: center; }
@@ -32,37 +30,42 @@ p {
 
 #navigation {
   position: absolute;
-  right: -180px;
+  right: -145px;
   width: 200px;
 }
 
 #navigation li {
-  background: #eee;
+  background: url('../img/tag-bg-large.png');
+  height: 21px;
+  padding: 10px 40px;
+  width: 138px;
   color: #000;
   list-style: none;
   margin: 10px;
 }
 
+#navigation li a {
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+}
+
 
 #content-wrapper {
   padding-top: 100px;
+  background: url('../img/wood.jpg');
+  background-size: 100%;
+  min-height: 100%;
 }
 
 #tablet-wrapper {
   position: relative;
   background-image: url('../img/tablet.png');
   background-size: 100%;
-  width: 700px;
-  height: 430px;
+  width: 687px;
+  height: 1080px;
   margin: auto;
   padding: 100px 100px; 
-}
-
-#paper-content {
-  background-image: url('../img/paper.png');
-  background-size: 100%;
-  height: 975px;
-  width: 764px;
 }
 
 #tablet-content {
@@ -95,21 +98,33 @@ form li textarea, form li input, form li select { margin-left: 20px; padding: 2p
   position: fixed;
   top: 0px;
   left: 0px;
-  background-image: url('../img/header-bg.png');
-  width: 100%;
-  height: 88px;
-  z-index: 2000000000;
+  background: url('../img/paper-sheet.png') -0px 70px;
+  background-size: 100%;
+  width: 40%;
+  margin-left: 30%;
+  height: 70px;
+  z-index: 4;
 }
 
 #newsjack-logo {
   margin: 3px auto;
   background-image: url('../img/header-title.png');
   background-size: 100%;
-  width: 444px;
-  height: 68px;
+  width: 330px;
+  height: 55px;
 }
 
 a { color: #73BE1E ; text-decoration: none;}
+
+.custom-dialog-close {
+  position: absolute;
+  right: -20px;
+  background-image: url('../img/close.png');
+  height: 31px;
+  width: 26px;
+  text-indent: -9001px;
+  cursor: pointer;
+}
 
 
 @media only screen and (max-width: 899px) {

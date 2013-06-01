@@ -11,22 +11,23 @@
 	</head>
 	<body>
 		<?php include("includes/partials/header.php"); ?>
-			<ul id="breadcrumb">
-				<li><a href="<?php echo($BASE_DIRECTORY); ?>">Back Home</a></li>
-			</ul>
-			<h1>Remix Gallery</h1>
+			<div id="navigation">
+				<ul>
+					<li><a href="<?php echo($BASE_DIRECTORY); ?>" id="how-it-works-link">Home</a></li>
+				</ul>
+			</div>
 			<ul class="articles">
 				<?php
 					$articles = Article::getObjects();
 					foreach($articles as $article) {
 						?>
 						<li>
-							<div class="article-head">Article: <?php echo($article->getTitle()); ?></div>
+							<div class="article-head"><?php echo($article->getTitle()); ?></div>
 							<div class="example-container">
 								<iframe class="example" src="<?php echo($article->getURL()); ?>"></iframe>
 								<div class="example-overlay">
 									<div class="example-overlay-content">
-										<a href="<?php echo($BASE_DIRECTORY); ?>remix/create/<?php echo($article->getItemID()); ?>" class="edit">Click to Remix</a>
+										<a href="<?php echo($BASE_DIRECTORY); ?>article/portal/<?php echo($article->getItemID()); ?>" class="edit">Remix Me!</a>
 									</div>
 								</div>
 							</div>
@@ -48,7 +49,6 @@
 									}
 								?>
 							</ul>
-							<div class="more"><a href="<?php echo($BASE_DIRECTORY); ?>article/portal/<?php echo($article->getItemID()); ?>">More...</a></div>
 						</li>
 						<?php
 					}

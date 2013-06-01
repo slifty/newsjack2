@@ -10,11 +10,22 @@ h2 { font-weight: normal; margin-bottom: 10px; font-size: 1.1em; }
 #example { width: 100%; height: 100%; border: 0px; }
 #example-overlay { display: block; width: 100%; height: 300px; position: relative; margin-top: -304px; background-color: rgba(255,255,255,.75); border: 1px solid #666; box-shadow: 5px 5px 5px #888;}
 #example-overlay-content { padding-top: 70px;}
-#example-overlay-content a.edit { position: absolute; right: 10px; bottom: 10px; display: block; padding: 5px; color: #FFF; background-color: rgba(115,190,30,1) ; text-align: center; }
-#example-overlay-content a.edit:hover { background-color: rgba(105,180,20,1); }
+#example-overlay-content a.edit { position: absolute; right: 10px; bottom: 10px; display: block; width: 101px; text-align: center; height: 21px; padding: 10px 0px; color: #000; background: url('../../img/tag-bg-small.png') no-repeat; text-align: center; }
 
 #links { margin-left: 175px; margin-bottom: 40px; }
 #links li { font-size: 1.2em; font-weight: bold; list-style: none; margin-top: 10px; }
+
+.remix-paper-wrapper { background: url('../../img/paper-sheet-2.png') no-repeat; background-size: 100%; height: 500px; width: 80%; padding: 50px 10%;text-align: center;}
+.remix-paper-wrapper iframe {width: 500px; height: 400px; margin: auto; box-shadow: 5px 5px 5px #888; }
+.remix-paper-wrapper img {max-width: 500px; max-height: 400px; margin: auto; box-shadow: 5px 5px 5px #888; }
+.remix-paper-wrapper ul.share-buttons { list-style: none; width: 325px; margin: auto;}
+.remix-paper-wrapper ul.share-buttons li { float: left; margin: 10px; }
+.remix-paper-wrapper ul.share-buttons li a { display: block; }
+.remix-paper-wrapper ul.share-buttons li.facebook a { background: url('../../img/share.png') 0px 0px; height: 51px; width: 51px;}
+.remix-paper-wrapper ul.share-buttons li.twitter a { background: url('../../img/share.png') -50px 0px; height: 51px; width: 51px;}
+.remix-paper-wrapper ul.share-buttons li.bitly a { background: url('../../img/share.png') -100px 0px; height: 51px; width: 70px;}
+.remix-paper-wrapper ul.share-buttons li.email a { background: url('../../img/share.png') -165px 0px; height: 51px; width: 70px;}
+
 
 #how-it-works { background: url("../../img/how_it_works.png") no-repeat; width: 158px; height: 31px; text-indent: -9001px; clear: left; }
 #more { background: url("../../img/more.png") no-repeat; width: 73px; height: 33px; text-indent: -9001px; margin-top: 20px; }

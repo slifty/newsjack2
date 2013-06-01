@@ -1,4 +1,5 @@
-#campaigns { margin-left: 20px; }
-#introduction { margin-top: 30px; margin-bottom: 20px; }
+#how-it-works { display: none; }
 
-#campaigns li { list-style: none; margin: 5px; }
+#how-it-works .paper-wrapper { background: url('../img/paper-sheet.png') no-repeat; background-size: 100%; height: 80%; padding: 10%;}
+#how-it-works .paper-content { height: 100%; color: black; overflow: auto; }
+#how-it-works .paper-content h2 { text-align: left; }

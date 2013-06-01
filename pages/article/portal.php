@@ -62,13 +62,15 @@
 								?>
 								<li>
 									<div class="image">
+
+										<a href="<?php echo($remix->getRemixURL()); ?>" data-remix-img='<?php echo($BASE_DIRECTORY.$remix->getImgURL()); ?>'>
 										<?php if($remix->getThumbURL() != "") { ?>
-											<a href="<?php echo($remix->getRemixURL()); ?>"><img src="<?php echo($BASE_DIRECTORY.$remix->getThumbURL()); ?>"/></a>
+											<img src="<?php echo($BASE_DIRECTORY.$remix->getThumbURL()); ?>"/>
 										<?php } elseif($remix->getImgURL() != "") { ?>
-											<a href="<?php echo($remix->getRemixURL()); ?>"><img src="<?php echo($BASE_DIRECTORY.$remix->getImgURL()); ?>"/></a>
+											<img src="<?php echo($BASE_DIRECTORY.$remix->getImgURL()); ?>"/>
 										<?php } ?>
+										</a>
 									</div>
-									<div class="link"><a href="<?php echo($remix->getRemixURL()); ?>"><?php echo($remix->getRemixURL()); ?></a></div>
 									<div class="tools">
 										<?php
 											if(User::isAdministrator()) {
@@ -91,7 +93,10 @@
 
 					<script type="text/javascript">
 						$(function(){
-							$(".remixes").jcarousel();
+							$(".remixes").jcarousel({
+								buttonNextHTML: "<div>&gt;&gt;</div>",
+								buttonPrevHTML: "<div>&lt;&lt;</div>"
+							});
 						})
 					</script>
 
@@ -99,15 +104,34 @@
 						$(function(){
 							$(".remixes li a").click(function(e) {
 								var $this = $(this);
-								var $modal = $("<div><iframe src='" + $this.attr('href') + "' style='height:90%; width: 100%;'></iframe><div style='height:10%;'>((SHARE BUTTONS HERE))</div>")
+								var modal_html  = "<div>";
+									modal_html += "<div class='custom-dialog-close'>CLOSE</div>";
+									modal_html += "<div class='remix-paper-wrapper'>";
+									if($this.attr('data-remix-img') != '')
+										modal_html += "<img src='" + $this.attr('data-remix-img') + "' />";
+									else
+										modal_html += "<iframe src='" + $this.attr('href') + "'></iframe>";
+									modal_html += "<ul class='share-buttons'>";
+									modal_html += "<li class='facebook'><a href='http://www.facebook.com/sharer.php?u=" + encodeURIComponent($this.attr('href')) + "' target='_blank'></a></li>";
+									modal_html += "<li class='twitter'><a href='https://twitter.com/intent/tweet?url=" + encodeURIComponent($this.attr('href')) + "' target='_blank'></a></li>";
+									modal_html += "<li class='bitly'><a href='" + $this.attr('href') + "+' target='_blank'></a></li>";
+									modal_html += "<li class='email'><a></a></li>";
+									modal_html += "</ul>";
+									modal_html += "</div>";
+									modal_html += "</div>";
+
+								var $modal = $(modal_html)
 								.dialog({
 									modal: true,
-									height: 700,
-									width: '90%',
+									width: '70%',
 									resizable: false,
 									draggable: false,
 
 								});
+
+								$(".custom-dialog-close").click(function(){
+									$modal.dialog("close");
+								})
 								return false;
 							});
 						})
