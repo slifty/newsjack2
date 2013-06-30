@@ -30,18 +30,18 @@
 					<li>Deel</li>
 				</ul>
 			</div>
-			<div id="example-container">
-				<iframe id="example" src="<?php echo($article->getURL()); ?>"></iframe>
-				<div id="example-overlay">
-					<div id="example-overlay-content">
+			<div class="example-container">
+				<div class="example"><iframe src="<?php echo($article->getURL()); ?>"></iframe></div>
+				<div class="example-overlay">
+					<div class="example-overlay-content">
 						<a href="<?php echo($BASE_DIRECTORY); ?>remix/create/<?php echo($article->getItemID()); ?>" class="edit">Voor</a>
 					</div>
 				</div>
 			</div>
-			<div id="example-container">
-				<iframe id="example" src="<?php echo($article->getURL()); ?>"></iframe>
-				<div id="example-overlay">
-					<div id="example-overlay-content">
+			<div class="example-container">
+				<div class="example"><iframe src="<?php echo($article->getURL()); ?>"></iframe></div>
+				<div class="example-overlay">
+					<div class="example-overlay-content">
 						<a href="<?php echo($BASE_DIRECTORY); ?>remix/create/<?php echo($article->getItemID()); ?>" class="edit">Na</a>
 					</div>
 				</div>

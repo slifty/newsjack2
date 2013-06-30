@@ -140,36 +140,6 @@ span.webxray-more-info {
   padding-left: 1em;
 }
 
-/* Style for the tag label */
-
-.webxray-overlay-label {
-    position: absolute;
-    font-family: Monaco, monospace;
-    color: white;
-    font-size: 8pt;
-    background-color: #000000;
-    pointer-events: none;
-}
-
-.webxray-overlay-label-top {
-    top: 0px;
-    left: 0px;
-	display:none;
-}
-
-.webxray-overlay-label-bottom {
-    bottom: 0px;
-    right: 0px;
-	display:none;
-}
-
-.webxray-overlay {
-    position: absolute;
-    pointer-events: none;
-    z-index: 2147483644;
-    border: dashed 1px #333333;
-}
-
 /* A DOM element that has been deleted by the user, but which
  * we'd like to remember just in case the user decides to undo
  * the deletion. */
@@ -504,3 +474,68 @@ div.webxray-dialog-inner h1 { font-family: 'impact'; font-weight: normal; font-s
 .image-remix-container .full-container { border: 2px dashed #666; clear: both; margin: 20px; overflow: hidden; }
 .image-remix-container .image-url { border: 1px solid #666; padding: 2px; margin-left: 10%; width: 80%; }
 .zoom-slider { margin: 20px; }
+
+
+.replacementWrapper {
+  position: relative;
+  display: inline-block;
+  margin-top: -28px;
+  margin-left: -3px;
+  border: 3px solid #74BC2E;
+}
+
+.replacementHeader {
+  height: 25px;
+  width: 100%;
+  background: #74BC2E;
+  color: #FFF;
+  font-size: 16px;
+  font-family: arial;
+  font-weight: normal;
+  font-style: normal;
+  cursor: auto;
+}
+
+.replacementHeader .editTitle {
+  position: absolute;
+  left: 0px;
+  text-transform: uppercase;
+  padding: 2px;
+}
+.replacementHeader .closeTitle {
+  position: absolute;
+  right: 0px;
+  padding: 2px;
+  cursor: pointer;
+}
+
+
+.newsjack-inline-text {
+  display: inline;
+}
+
+.newsjack-inline-text:hover {
+  background: #8ab300;
+  color: #fff;
+  border: 2px dashed #fff;
+}
+
+.newsjack-image {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+  display: block;
+  background: transparent;
+}
+.newsjack-image-proxy {
+  position: absolute;
+  top: 0px;
+  z-index: 2;
+  background: rgba(1,1,1,.01);
+}
+.newsjack-image-proxy:hover {
+  background: rgba(138,179,0, .5);
+  color: #fff;
+  border: 1px dashed #fff;
+}

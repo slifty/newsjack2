@@ -1,4 +1,5 @@
 var GLOBAL_BASE_PATH = "/newsjack2/public/";
+var GLOBAL_BASE_ROOT = "http://localhost";
 var Webxray = (function() {
 	var GLOBAL_GOGGLES_LOAD_CB = 'webxrayWhenGogglesLoad';
 
@@ -535,13 +536,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 		// Create and return a div that floats above the first
 		// matched element.
 		overlay: function overlay() {
-			var html = this.get(0).ownerDocument.documentElement;
-			var overlay = $('<div class="webxray-base webxray-overlay">' +
-				'&nbsp;</div>');
-
-			overlay.css(this.bounds());
-			$(html).append(overlay);
-			return overlay;
+			return;
 		},
 
 		// Like jQuery.append(), but accepts an arbitrary number of arguments,
@@ -558,21 +553,14 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 		// match the size and position of the given target by animating
 		// it and then executing the given callback.
 		resizeTo: function resizeTo(target, cb) {
-			var overlay = this;
-
-			var hasNoStyle = $(target).attr('style') === undefined;
-			overlay.animate($(target).bounds(), cb);
-			if (hasNoStyle && $(target).attr('style') == '')
-				$(target).removeAttr('style');
+			return;
 		},
 		// Resizes and repositions the currently matched element to
 		// match the size and position of the given target by animating
 		// it, then fades out the currently matched element and
 		// removes it from the DOM.
 		resizeToAndFadeOut: function resizeToAndFadeOut(target) {
-			this.resizeTo(target, function() {
-				$(this).fadeOut(function() { $(this).remove(); });
-			});
+			return;
 		},
 		// Removes the class and, if the class attribute is now empty, 
 		// removes the attribute as well (jQuery remove class does not)..
@@ -666,7 +654,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					showMask("Creating Screenshot...");
 					var html2obj = html2canvas($('#newsjack_content')[0], {
 						proxy: GLOBAL_BASE_PATH + "api/proxy.php",
-						logging: true,
+						logging: false,
 						onrendered: function(canvas) {
 							remixInfo.img = canvas.toDataURL();
 							next();
@@ -1019,7 +1007,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 		// for the element type being overlaid, with the given opacity.
 		// A default opacity is used if none is provided.
 		overlayWithTagColor: function overlayWithTagColor(opacity) {
-			return $(this).overlay().applyTagColor(this, opacity);
+			return;
 		}
 	});
 })(jQuery);
@@ -1068,46 +1056,11 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 		var element = null;
 
 		function labelOverlay(overlay, target, finalSize) {
-			var parts = ["top", "bottom"];
-			if ($(target).isVoidElement())
-				parts = ["top"];
-			finalSize = finalSize || overlay;
-			parts.forEach(function(className) {
-				var part = $('<div class="webxray-base webxray-overlay-label">' + '</div>');
-				var tag = target.nodeName.toLowerCase();
-				part.addClass("webxray-overlay-label-" + className);
-				part.text("<" + (className == "bottom" ? "/" : "") + tag + ">");
-				overlay.append(part);
-				if (part.width() > $(finalSize).width() ||
-					part.height() > $(finalSize).height())
-					part.hide();
-			});
+			return;
 		}
 
 		function setAncestorOverlay(ancestor, useAnimation) {
-			if (ancestorOverlay) {
-				ancestorOverlay.remove();
-				ancestorOverlay = null;
-			}
-			if (ancestor) {
-				if (useAnimation) {
-					var fromElement = instance.getPrimaryElement();
-					ancestorOverlay = $(fromElement).overlay();
-					ancestorOverlay.resizeTo(ancestor);
-				} else {
-					ancestorOverlay = ancestor.overlay();
-				}
-				ancestorOverlay.addClass("webxray-ancestor");
-				labelOverlay(ancestorOverlay, ancestor[0], ancestor[0]);        
-				instance.ancestor = ancestor[0];
-			} else {
-				if (useAnimation && instance.ancestor) {
-					ancestorOverlay = $(instance.ancestor).overlay();
-					ancestorOverlay.addClass("webxray-ancestor");
-					ancestorOverlay.resizeToAndFadeOut(instance.element);
-				}
-				instance.ancestor = null;
-			}
+			return;
 		}
 
 		var instance = jQuery.eventEmitter({
@@ -1119,18 +1072,14 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 			unfocus: function unfocus() {
 				if (!element)
 					return;
-				overlay.remove();
 				overlay = null;
 				element = this.element = null;
-				setAncestorOverlay(null);
 				ancestorIndex = 0;
 				this.emit('change', this);
 			},
 			set: function set(newElement) {
 				this.unfocus();
 				element = this.element = newElement;
-				overlay = $(element).overlayWithTagColor();
-				labelOverlay(overlay, element);
 				this.emit('change', this);
 			},
 			destroy: function destroy() {
@@ -1738,6 +1687,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 })(jQuery);
 
 
+/* All the code related to performing an actual remix */
 (function($) {
 	// Set up Remixing
 	$(function() {
@@ -1746,7 +1696,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 		$("#newsjack_content").find("*").addBack()
 			.contents()
 			.filter(function() { return this.nodeType == 3 && $(this).text().trim()!=''; })
-			.wrap('<span />')
+			.wrap('<div />')
 			.parent()
 			.addClass("newsjack-inline-text")
 			.addClass("newsjack-remixable");
@@ -1764,28 +1714,20 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					.height($el.height())
 					.width($el.width());
 
-				$el.replaceWith($container)
-					.css("display","block")
-					.css("position","absolute")
-					.css("top", "0px")
-					.css("left", "0px")
-					.appendTo($container);
-
 				var $clickable = $("<div />")
 					.addClass("newsjack-remixable")
 					.addClass("newsjack-image-proxy")
-					.height($el.height())
-					.width($el.width())
-					.css("position","absolute")
-					.css("top", "0px")
-					.css("z-index",1)
-					.css("background","transparent")
+					.height($el.height() - 2)
+					.width($el.width() - 2)
+					.appendTo($container);
+
+				$el.replaceWith($container)
 					.appendTo($container);
 			})
 
 		// Disable links
 		$("#newsjack_content").find("a")
-			.attr("href","replace_me_with_a_real_url_please.com")
+			.attr("href", GLOBAL_BASE_ROOT + GLOBAL_BASE_PATH)
 			.click(function() { return false; });
 
 	});
@@ -1919,27 +1861,42 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 
 				// INLINE TEXT
 				if($focusedElement.hasClass("newsjack-inline-text")) {
-					$original = $(focusedElement);
-					$replacement = $("<textarea/>")
+					var $original = $(focusedElement);
+					var $replacement = $("<div />")
+						.addClass("replacementWrapper")
+					
+					var $header = $("<div></div>")
+						.addClass("replacementHeader")
+						.appendTo($replacement)
+						.append("<div class='editTitle'>Edit</div>")
+
+					var $closeRemix = $("<div />")
+						.addClass("closeTitle")
+						.text("X")
+						.appendTo($header);
+
+					var $textarea = $("<textarea/>")
 						.text($original.text().trim())
 						.height($original.height())
 						.width($original.width())
 						.css("font-family", $original.css("font-family"))
 						.css("font-size", $original.css("font-size"))
 						.css("font-weight", $original.css("font-weight"))
+						.appendTo($replacement);
+
 			 		$original.replaceWith($replacement);
 
-			 		$replacement.focus();
-			 		$replacement.bind("endEdit", function(e) {
+			 		$textarea.focus();
+			 		$textarea.bind("endEdit", function(e) {
 			 			$replacement.replaceWith($original);
 			 			$clone = $original.clone()
-			 				.text(" " + $replacement.val() + " ");
+			 				.text(" " + $textarea.val() + " ");
 			 			self.replaceElement($original, $clone);
 			 			options.input.activate();
 			 		});
 
-			 		$replacement.bind("blur", function(e) { $(this).trigger("endEdit"); });
-			 		$replacement.bind("keydown", function(e) { if(e.keyCode == 13) $(this).trigger("endEdit"); });
+			 		$textarea.bind("blur", function(e) { $(this).trigger("endEdit"); });
+			 		$textarea.bind("keydown", function(e) { if(e.keyCode == 13) $(this).trigger("endEdit"); });
 			 	}
 
 			 	// IMAGE REPLACEMENT
@@ -2613,6 +2570,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 
 			self.add({
 				click: function(event) {
+					console.log("CLICK");
 					if (isValidFocusTarget(event.target)) {
 						self.commandBindings['remix'].execute();
 						return true;

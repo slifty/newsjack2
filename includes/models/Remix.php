@@ -270,6 +270,13 @@ class Remix extends FactoryObject{
 			$url_parts = parse_url($url);
 			$url_base = $url_parts["scheme"]."://".$url_parts["host"];
 			
+			// Remove all meta
+			$data = preg_replace('/\<\s*meta.*\/>/i',"", $data);
+
+			// Remove all iframes (force a "noscript" environment)
+			$data = preg_replace('/\<\s*iframe.*?\>.*?\<\s*\/iframe.*?\>/is',"", $data);
+
+
 			// Remove all scripts (force a "noscript" environment)
 			$data = preg_replace('/\<script.*?\>.*?\<\/script.*?\>/is',"", $data);
 			$data = preg_replace('/<.*noscript>/i',"", $data);

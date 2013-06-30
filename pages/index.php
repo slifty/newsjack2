@@ -36,7 +36,7 @@
 					<li><a href="<?php echo($BASE_DIRECTORY); ?>site/gallery">Gallery</a></li>
 				</ul>
 			</div>
-			(VIDEO GOES HERE)
+			<iframe src="http://player.vimeo.com/video/67487897" width="100%" height="500px" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 			<div id="how-it-works">
 				<div class="custom-dialog-close">CLOSE</div>
 				<div class="paper-wrapper">

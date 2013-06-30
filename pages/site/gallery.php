@@ -24,7 +24,7 @@
 						<li>
 							<div class="article-head"><?php echo($article->getTitle()); ?></div>
 							<div class="example-container">
-								<iframe class="example" src="<?php echo($article->getURL()); ?>"></iframe>
+								<div class="example"><iframe src="<?php echo($article->getURL()); ?>"></iframe></div>
 								<div class="example-overlay">
 									<div class="example-overlay-content">
 										<a href="<?php echo($BASE_DIRECTORY); ?>article/portal/<?php echo($article->getItemID()); ?>" class="edit">Remix Me!</a>
