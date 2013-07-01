@@ -21,5 +21,5 @@
 
 	$CLEAN_PARAMS = array_splice($path_items, 2);
 
-	include_once($file_path);
+	@include_once($file_path);
 ?>

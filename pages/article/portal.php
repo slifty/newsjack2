@@ -39,7 +39,8 @@
 				</div>
 			</div>
 			<div class="example-container">
-				<div class="example"><iframe src="<?php echo($article->getURL()); ?>"></iframe></div>
+				<?php $remix = array_shift($article->getFeaturedRemixes());?>
+				<div class="example"><iframe src="<?php echo($remix?$remix->getRemixURL():$article->getURL()); ?>"></iframe></div>
 				<div class="example-overlay">
 					<div class="example-overlay-content">
 						<a href="<?php echo($BASE_DIRECTORY); ?>remix/create/<?php echo($article->getItemID()); ?>" class="edit">Na</a>

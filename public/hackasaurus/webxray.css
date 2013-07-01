@@ -459,7 +459,8 @@ div.webxray-dialog-inner .save_thumb { float: right; margin-right: 5%; cursor: p
 
 div.webxray-dialog-inner h2.gallery-header { border-bottom: double 3px #333333; margin-bottom: 10px; clear: left; font-size: 1.5em;}
 
-div.webxray-dialog-inner .thumbnail { margin: 5px; }
+div.webxray-dialog-inner .thumbnail { margin: 5px; display: none; }
+.no-touch div.webxray-dialog-inner .thumbnail { display: block; }
 div.webxray-dialog-inner .sharelist { height: 100px; margin: 20px; margin-left: 5%; }
 div.webxray-dialog-inner .share { float: left; height: 100px; width: 100px; text-align: center; margin-right: 10px; margin-bottom: 10px; }
 div.webxray-dialog-inner .share a { display: block; height: 100%; width: 100%; }
@@ -482,6 +483,7 @@ div.webxray-dialog-inner h1 { font-family: 'impact'; font-weight: normal; font-s
   margin-top: -28px;
   margin-left: -3px;
   border: 3px solid #74BC2E;
+  z-index: 3;
 }
 
 .replacementHeader {
@@ -493,6 +495,7 @@ div.webxray-dialog-inner h1 { font-family: 'impact'; font-weight: normal; font-s
   font-family: arial;
   font-weight: normal;
   font-style: normal;
+  line-height: 20px; 
   cursor: auto;
 }
 
@@ -501,12 +504,15 @@ div.webxray-dialog-inner h1 { font-family: 'impact'; font-weight: normal; font-s
   left: 0px;
   text-transform: uppercase;
   padding: 2px;
+  margin: 0px;
 }
 .replacementHeader .closeTitle {
   position: absolute;
   right: 0px;
   padding: 2px;
   cursor: pointer;
+  margin: 0px;
+  padding: 0px;
 }
 
 
@@ -514,7 +520,7 @@ div.webxray-dialog-inner h1 { font-family: 'impact'; font-weight: normal; font-s
   display: inline;
 }
 
-.newsjack-inline-text:hover {
+.no-touch .newsjack-inline-text:hover {
   background: #8ab300;
   color: #fff;
   border: 2px dashed #fff;
@@ -533,8 +539,13 @@ div.webxray-dialog-inner h1 { font-family: 'impact'; font-weight: normal; font-s
   top: 0px;
   z-index: 2;
   background: rgba(1,1,1,.01);
+  display: none;
 }
-.newsjack-image-proxy:hover {
+
+.no-touch .newsjack-image-proxy {
+  display: block;
+}
+.no-touch .newsjack-image-proxy:hover {
   background: rgba(138,179,0, .5);
   color: #fff;
   border: 1px dashed #fff;

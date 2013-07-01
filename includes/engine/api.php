@@ -17,5 +17,5 @@
 
 	$file_path = "api/".$path_items[0];
 
-	include_once($file_path);
+	@include_once($file_path);
 ?>

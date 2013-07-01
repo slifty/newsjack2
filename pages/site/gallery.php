@@ -33,7 +33,7 @@
 							</div>
 							<ul class="remixes">
 								<?php
-									$remixes = array_slice($article->getRemixes(), 0, 4);
+									$remixes = array_slice($article->getFeaturedRemixes(), 0, 4);
 									foreach($remixes as $remix) {
 										?>
 										<li>

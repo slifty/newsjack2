@@ -8,7 +8,7 @@
 	}
 	
 	$remix = Remix::getObject($_GET['r']);
-	
+
 	if($remix == null || $remix->getItemId() == 0) {
 		header("Location: ".$BASE_DIRECTORY);
 		exit();
@@ -16,7 +16,7 @@
 	
 	
 	if($_SERVER['REQUEST_METHOD'] === 'POST') {
-		$campaign_id = $remix->getCampaignId();
+		$article_id = $remix->getArticleId();
 		
 		if(isset($_POST['save']))
 			$remix->setIsFeatured(isset($_POST['featured']));
@@ -29,8 +29,7 @@
 		if(isset($_POST['delete'])) {
 			$remix->delete();
 		}
-		
-		header("Location: ".$BASE_DIRECTORY."campaign/gallery/".$campaign_id);
+		header("Location: ".$BASE_DIRECTORY."article/portal/".$article_id);
 		exit();
 	}
 ?>

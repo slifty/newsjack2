@@ -1,5 +1,11 @@
 var GLOBAL_BASE_PATH = "/newsjack2/public/";
 var GLOBAL_BASE_ROOT = "http://localhost";
+
+/* Touch screen hax0r */
+if (!("ontouchstart" in document.documentElement)) {
+    document.documentElement.className += " no-touch";
+}
+
 var Webxray = (function() {
 	var GLOBAL_GOGGLES_LOAD_CB = 'webxrayWhenGogglesLoad';
 
@@ -1877,8 +1883,8 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 
 					var $textarea = $("<textarea/>")
 						.text($original.text().trim())
-						.height($original.height())
-						.width($original.width())
+						.height($original.height() + 0)
+						.width($original.width() + 10)
 						.css("font-family", $original.css("font-family"))
 						.css("font-size", $original.css("font-size"))
 						.css("font-weight", $original.css("font-weight"))
@@ -2417,16 +2423,12 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 			var touch = touches[0];
 			var element = document.elementFromPoint(touch.clientX,
 				touch.clientY);
-			
 			if (element == lastTouch)
 				return false;
 			lastTouch = element;
-
 			if (!isValidFocusTarget(element))
 				return false;
-
-			if (isValidFocusTarget(element))
-				focused.set(element);
+			$(element).click();
 		}
 
 		return {
@@ -2570,8 +2572,8 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 
 			self.add({
 				click: function(event) {
-					console.log("CLICK");
 					if (isValidFocusTarget(event.target)) {
+						focused.set(event.target);
 						self.commandBindings['remix'].execute();
 						return true;
 					}
