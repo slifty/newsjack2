@@ -7,7 +7,7 @@
 	$ckfile = tempnam ("/tmp", "CURLCOOKIE");
 	
 	// Clean the URL
-	$url = isset($_GET['url'])?$_GET['url']:"";
+	$url = base64_decode(isset($_GET['url'])?$_GET['url']:"");
 	$url = substr($url,0,7) == "http://"?$url:"http://".$url;
 	$url = Util::getFinalUrl($url);
 	

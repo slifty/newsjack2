@@ -2092,7 +2092,7 @@ _html2canvas.Preload = function( options ) {
     script;
 
     link.href = url;
-    url = $.base64encode(link.href); // work around for pages with base href="" set - WARNING: this may change the url
+    url = $.base64.encode(link.href); // work around for pages with base href="" set - WARNING: this may change the url)
 
     callback_name = 'html2canvas_' + (count++);
     imageObj.callbackname = callback_name;
