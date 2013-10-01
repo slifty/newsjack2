@@ -35,21 +35,56 @@ p {
 }
 
 #navigation li {
-  background: url('../img/tag-bg-large.png');
-  height: 21px;
-  padding: 10px 40px;
-  width: 138px;
   color: #000;
   list-style: none;
   margin: 10px;
 }
 
-#navigation li a {
-  color: #000;
-  font-size: 16px;
-  font-weight: bold;
+#navigation li.nav-edit a {
+  display: block;
+  height: 53px;
+  width: 114px;
+  text-indent: -9999px;
+  background: url('../img/nav/edit.png');
+}
+#navigation li.nav-home a {
+  position: relative;
+  z-index: 1;
+  display: block;
+  height: 53px;
+  width: 114px;
+  text-indent: -9999px;
+  background: url('../img/nav/home.png');
+}
+#navigation li.nav-deel a {
+  position: relative;
+  z-index: 1;
+  display: block;
+  height: 53px;
+  width: 114px;
+  text-indent: -9999px;
+  background: url('../img/nav/deel.png');
 }
 
+#navigation li.nav-works a {
+  position: relative;
+  z-index: 1;
+  display: block;
+  height: 46px;
+  width: 203px;
+  text-indent: -9999px;
+  background: url('../img/nav/hoe_werkt_het_nav.png');
+}
+
+#navigation li.nav-gallery a {
+  position: relative;
+  z-index: 1;
+  display: block;
+  height: 46px;
+  width: 153px;
+  text-indent: -9999px;
+  background: url('../img/nav/gallerij.png');
+}
 
 #content-wrapper {
   padding-top: 100px;
@@ -110,8 +145,8 @@ form li textarea, form li input, form li select { margin-left: 20px; padding: 2p
   margin: 3px auto;
   background-image: url('../img/header-title.png');
   background-size: 100%;
-  width: 330px;
-  height: 55px;
+  width: 354px;
+  height: 49px;
 }
 
 a { color: #73BE1E ; text-decoration: none;}

@@ -1,0 +1,41 @@
+.message {
+	text-align: center;
+	border: 1px solid #990000;
+	background: #ffeeee;
+	width: 80%;
+	margin: auto;
+	margin-bottom: 10px;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+
+#your_email {
+	width: 200px;
+}
+#their_email {
+	width: 200px;
+}
+
+
+#email_content {
+	height: 200px;
+	width: 100%;
+	max-width: 600px;
+}
+
+#keep_informed {
+	float: left;
+	margin-top: 2px;
+	margin-right: 5px;  
+}
+
+#send {
+	margin-top: 10px;
+}
+
+.checkbox {
+	font-weight: normal;
+	width: 500px; 
+	font-size: 12px;
+}

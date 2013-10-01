@@ -660,7 +660,7 @@ jQuery.localization.extend("en", "hud-overlay", {"and": "and", "pointing-at": "p
 					showMask("Creating Screenshot...");
 					var html2obj = html2canvas($('#newsjack_content')[0], {
 						proxy: GLOBAL_BASE_PATH + "api/proxy.php",
-						logging: false,
+						logging: true,
 						onrendered: function(canvas) {
 							remixInfo.img = canvas.toDataURL();
 							next();

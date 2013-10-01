@@ -25,16 +25,16 @@
 
 			<div id="navigation">
 				<ul>
-					<li><a href="<?php echo($BASE_DIRECTORY); ?>remix/create/<?php echo($article->getItemID()); ?>">Edit</a></li>
-					<li><a href="<?php echo($BASE_DIRECTORY); ?>">Home</a></li>
-					<li>Deel</li>
+					<li class="nav-edit"><a href="<?php echo($BASE_DIRECTORY); ?>remix/create/<?php echo($article->getItemID()); ?>">Edit</a></li>
+					<li class="nav-home"><a href="<?php echo($BASE_DIRECTORY); ?>">Home</a></li>
+					<li class="nav-deel"><a hrec="">Deel</a></li>
 				</ul>
 			</div>
 			<div class="example-container">
 				<div class="example"><iframe src="<?php echo($article->getURL()); ?>"></iframe></div>
 				<div class="example-overlay">
 					<div class="example-overlay-content">
-						<a href="<?php echo($BASE_DIRECTORY); ?>remix/create/<?php echo($article->getItemID()); ?>" class="edit">Voor</a>
+						<a href="<?php echo($BASE_DIRECTORY); ?>remix/create/<?php echo($article->getItemID()); ?>" class="edit voor">Voor</a>
 					</div>
 				</div>
 			</div>
@@ -43,7 +43,7 @@
 				<div class="example"><iframe src="<?php echo($remix?$remix->getRemixURL():$article->getURL()); ?>"></iframe></div>
 				<div class="example-overlay">
 					<div class="example-overlay-content">
-						<a href="<?php echo($BASE_DIRECTORY); ?>remix/create/<?php echo($article->getItemID()); ?>" class="edit">Na</a>
+						<a href="<?php echo($BASE_DIRECTORY); ?>remix/create/<?php echo($article->getItemID()); ?>" class="edit na">Na</a>
 					</div>
 				</div>
 			</div>
@@ -64,7 +64,7 @@
 								<li>
 									<div class="image">
 
-										<a href="<?php echo($remix->getRemixURL()); ?>" data-remix-img='<?php echo($BASE_DIRECTORY.$remix->getImgURL()); ?>'>
+										<a href="<?php echo($remix->getRemixURL()); ?>" data-remix-img='<?php echo($BASE_DIRECTORY.$remix->getImgURL()); ?>' data-remix-id='<?php echo($remix->getItemID()); ?>'>
 										<?php if($remix->getThumbURL() != "") { ?>
 											<img src="<?php echo($BASE_DIRECTORY.$remix->getThumbURL()); ?>"/>
 										<?php } elseif($remix->getImgURL() != "") { ?>
@@ -109,14 +109,14 @@
 									modal_html += "<div class='custom-dialog-close'>CLOSE</div>";
 									modal_html += "<div class='remix-paper-wrapper'>";
 									if($this.attr('data-remix-img') != '')
-										modal_html += "<img src='" + $this.attr('data-remix-img') + "' />";
+										modal_html += "<a href='" + $this.attr('data-remix-img') + "' target='_blank'><img src='" + $this.attr('data-remix-img') + "' /></a>";
 									else
 										modal_html += "<iframe src='" + $this.attr('href') + "'></iframe>";
 									modal_html += "<ul class='share-buttons'>";
 									modal_html += "<li class='facebook'><a href='http://www.facebook.com/sharer.php?u=" + encodeURIComponent($this.attr('href')) + "' target='_blank'></a></li>";
 									modal_html += "<li class='twitter'><a href='https://twitter.com/intent/tweet?url=" + encodeURIComponent($this.attr('href')) + "' target='_blank'></a></li>";
 									modal_html += "<li class='bitly'><a href='" + $this.attr('href') + "+' target='_blank'></a></li>";
-									modal_html += "<li class='email'><a></a></li>";
+									modal_html += "<li class='email'><a href='<?php echo($BASE_DIRECTORY);?>remix/share?r=" + $this.attr('data-remix-id') + "' target='_blank'></a></li>";
 									modal_html += "</ul>";
 									modal_html += "</div>";
 									modal_html += "</div>";

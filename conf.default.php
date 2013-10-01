@@ -27,4 +27,9 @@
 // Cache Settings
 	global $CACHE_TIMEOUT;
 	$CACHE_TIMEOUT = 300; // in seconds
+
+// Recaptcha Settings
+	global $RECAPTCHA_PUBLIC_KEY, $RECAPTCHA_PRIVATE_KEY;
+	$RECAPTCHA_PUBLIC_KEY = "";
+	$RECAPTCHA_PRIVATE_KEY = "";
 ?>

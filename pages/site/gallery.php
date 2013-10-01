@@ -13,7 +13,7 @@
 		<?php include("includes/partials/header.php"); ?>
 			<div id="navigation">
 				<ul>
-					<li><a href="<?php echo($BASE_DIRECTORY); ?>" id="how-it-works-link">Home</a></li>
+					<li class="nav-home"><a href="<?php echo($BASE_DIRECTORY); ?>">Home</a></li>
 				</ul>
 			</div>
 			<ul class="articles">

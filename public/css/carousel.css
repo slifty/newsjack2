@@ -48,18 +48,17 @@
     position: absolute;
     bottom: -43px;
     right: 5px;
-    padding: 10px 20px;
-    width: 61px;
-    height: 21px;
+    width: 49px;
+    height: 42px;
     text-align: center;
     cursor: pointer;
-    background: url('../img/tag-bg-small.png') no-repeat;
+    text-indent: -9999px;
+    background: url('../img/nav/right_arrow.png');
 }
 
 .jcarousel-direction-rtl .jcarousel-next-horizontal {
     left: 5px;
     right: auto;
-    background-image: url('../img/tag-bg-small.png');
 }
 
 .jcarousel-next-horizontal:hover,
@@ -80,18 +79,17 @@
     position: absolute;
     bottom: -43px;
     left: 5px;
-    padding: 10px 20px;
-    width: 61px;
-    height: 21px;
+    width: 49px;
+    height: 42px;
     text-align: center;
     cursor: pointer;
-    background-image: url('../img/tag-bg-small.png');
+    text-indent: -9999px;
+    background: url('../img/nav/left_arrow.png');
 }
 
 .jcarousel-direction-rtl .jcarousel-prev-horizontal {
     left: auto;
     right: 5px;
-    background-image: url('../img/tag-bg-small.png');
 }
 
 .jcarousel-prev-horizontal:hover, 

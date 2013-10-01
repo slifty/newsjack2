@@ -32,8 +32,8 @@
 		<?php include("includes/partials/header.php"); ?>
 			<div id="navigation">
 				<ul>
-					<li><a href="#" id="how-it-works-link">How it Works</a></li>
-					<li><a href="<?php echo($BASE_DIRECTORY); ?>site/gallery">Gallery</a></li>
+					<li class="nav-works"><a href="#" id="how-it-works-link">How it Works</a></li>
+					<li class="nav-gallery"><a href="<?php echo($BASE_DIRECTORY); ?>site/gallery">Gallery</a></li>
 				</ul>
 			</div>
 			<iframe src="http://player.vimeo.com/video/67487897" width="100%" height="500px" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>

@@ -30,6 +30,7 @@
 	$injection .= '<script type="text/javascript">var remix_id = '.$remix->getItemID().';var remix_url = "'.$remix->getOriginalURL().'";var campaignId="'.(isset($_GET['c'])?$_GET['c']:"").'";</script>';
 	$injection .= '<script type="text/javascript" src="'.$BASE_DIRECTORY.'js/jquery.jcrop.min.js" charset="utf-8"></script>';
 	$injection .= '<script type="text/javascript" src="'.$BASE_DIRECTORY.'js/html2canvas.js" charset="utf-8"></script>';
+	$injection .= '<script type="text/javascript" src="'.$BASE_DIRECTORY.'js/lib/jquery.base64.min.js" charset="utf-8"></script>';
 	$injection .= '<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/ui-lightness/jquery-ui.css" />';
 	$injection .= '<link rel="stylesheet" href="'.$BASE_DIRECTORY.'css/remix.css" />';
 
